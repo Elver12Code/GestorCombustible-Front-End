@@ -22,7 +22,9 @@ function Formulario() {
     observacion: "",
     conductorNombre: "",
     conductorApellido: "",
-
+    placa: "",
+    tipo: "",
+    maquina:"",  
   });
 
   const [newUnit, setNewUnit] = useState({
@@ -96,10 +98,15 @@ function Formulario() {
     alert("Por favor, seleccione una unidad operativa.");
     return;
   }
+  if (formData.cantidad > stock) {
+    alert("No hay suficiente stock.");
+    return;
+  }  
+
   // Validar nombre y apellido del conductor
   if (!formData.cantidad.trim() || !formData.clasificador.trim() ||!formData.combustible.trim() ||!formData.meta.trim() 
     ||!formData.observacion.trim() || !formData.ordenConsumo.trim() ||!formData.unidad.trim() || !formData.conductorNombre.trim() 
-    || !formData.conductorApellido.trim()) {
+    || !formData.conductorApellido.trim() || !formData.maquina.trim() || !formData.tipo.trim() || !formData.placa.trim()) {
     alert("Por favor, ingrese todos los campos.");
     return;
   }
@@ -117,6 +124,9 @@ function Formulario() {
     observacion: formData.observacion,
     conductorNombre: formData.conductorNombre, // Agregar nombre
     conductorApellido: formData.conductorApellido,
+    maquina: formData.maquina, // Máquina
+    tipo: formData.tipo, // Tipo de máquina
+    placa: formData.placa,
   };
 
   console.log("Datos enviados al backend:", dataToSend); // Verifica los datos
@@ -142,6 +152,9 @@ function Formulario() {
           observacion: "",
           conductorNombre: "",
           conductorApellido: "",
+          maquina: "", // Limpia la máquina
+          tipo: "", // Limpia el tipo
+          placa: "", 
         }); // Limpia el formulario
       } else {
         alert("Hubo un problema al registrar el consumo.");
@@ -259,6 +272,54 @@ function Formulario() {
             value={formData.conductorApellido}
             onChange={handleInputChange}
             placeholder="Apellido"
+            className="w-full border px-4 py-2 rounded"
+          />
+        </div>
+
+        {/* Campo para la máquina */}
+        <div>
+          <label htmlFor="maquina" className="block text-sm font-semibold">
+            Máquina:
+          </label>
+          <input
+            type="text"
+            id="maquina"
+            name="maquina"
+            value={formData.maquina}
+            onChange={handleInputChange}
+            placeholder="Nombre de la máquina"
+            className="w-full border px-4 py-2 rounded"
+          />
+        </div>
+
+        {/* Campo para el tipo de máquina */}
+        <div>
+          <label htmlFor="tipo" className="block text-sm font-semibold">
+            Tipo de Máquina:
+          </label>
+          <input
+            type="text"
+            id="tipo"
+            name="tipo"
+            value={formData.tipo}
+            onChange={handleInputChange}
+            placeholder="Tipo de máquina"
+            className="w-full border px-4 py-2 rounded"
+          />
+        </div>
+
+        {/* Campo para la placa */}
+        <div>
+          <label htmlFor="placa" className="block text-sm font-semibold">
+            Placa de la Máquina:
+          </label>
+          <input
+            type="text"
+            id="placa"
+            name="placa"
+            value={formData.placa}
+            onChange={handleInputChange}
+            placeholder="Placa de la máquina"
             className="w-full border px-4 py-2 rounded"
           />
         </div>
