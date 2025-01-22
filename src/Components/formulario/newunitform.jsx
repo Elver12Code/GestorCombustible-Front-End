@@ -1,11 +1,11 @@
-"use client";
+// NewUnitForm.jsx
 import React from "react";
 
-const NewUnitForm = ({ newUnit, onUnitChange, onSubmit }) => {
+function NewUnitForm({ newUnit, onUnitChange, onSubmit }) {
   return (
     <div className="flex justify-between grid-cols-2 gap-4">
       <div>
-        <label htmlFor="name" className="block text-sm font-medium ">
+        <label htmlFor="name" className="block text-sm font-medium">
           Nombre de la Unidad
         </label>
         <input
@@ -39,6 +39,6 @@ const NewUnitForm = ({ newUnit, onUnitChange, onSubmit }) => {
       </button>
     </div>
   );
-};
+}
 
 export default NewUnitForm;

@@ -13,6 +13,15 @@ function Formulario() {
   const [formNumber, setFormNumber] = useState(1); // Número del formulario
   const [formData, setFormData] = useState({
     unidadOperativa: "",
+    ordenConsumo: "",
+    clasificador: "",
+    meta: "",
+    combustible: "",
+    cantidad: "",
+    unidad: "",
+    observacion: "",
+    conductorNombre: "",
+    conductorApellido: "",
 
   });
 
@@ -51,6 +60,12 @@ function Formulario() {
     });
   };
 
+  // Maneja el cambio en los campos del formulario
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
   // Enviar nueva unidad operativa al backend
   const handleNewUnitSubmit = (event) => {
     event.preventDefault();
@@ -81,12 +96,30 @@ function Formulario() {
     alert("Por favor, seleccione una unidad operativa.");
     return;
   }
+  // Validar nombre y apellido del conductor
+  if (!formData.cantidad.trim() || !formData.clasificador.trim() ||!formData.combustible.trim() ||!formData.meta.trim() 
+    ||!formData.observacion.trim() || !formData.ordenConsumo.trim() ||!formData.unidad.trim() || !formData.conductorNombre.trim() 
+    || !formData.conductorApellido.trim()) {
+    alert("Por favor, ingrese todos los campos.");
+    return;
+  }
 
   // Datos a enviar al backend (sin formNumber ni fecha, ya que se generan en el backend)
   const dataToSend = {
     unidadOperativaId: selectedUnit.id,
     stock: stock,
+    ordenConsumo: formData.ordenConsumo,
+    clasificador: formData.clasificador,
+    meta: formData.meta,
+    combustible: formData.combustible,
+    cantidad: Number(formData.cantidad),
+    unidad: formData.unidad,
+    observacion: formData.observacion,
+    conductorNombre: formData.conductorNombre, // Agregar nombre
+    conductorApellido: formData.conductorApellido,
   };
+
+  console.log("Datos enviados al backend:", dataToSend); // Verifica los datos
 
   // Enviar los datos al backend para registrar el consumo
   fetch("http://localhost:3000/api/consumos", {
@@ -98,6 +131,18 @@ function Formulario() {
       if (response.ok) {
         alert("Consumo registrado con éxito.");
         setFormNumber(formNumber + 1); // Solo se incrementa en el frontend
+        setFormData({
+          unidadOperativa: "",
+          ordenConsumo: "",
+          clasificador: "",
+          meta: "",
+          combustible: "",
+          cantidad: "",
+          unidad: "",
+          observacion: "",
+          conductorNombre: "",
+          conductorApellido: "",
+        }); // Limpia el formulario
       } else {
         alert("Hubo un problema al registrar el consumo.");
       }
@@ -108,7 +153,7 @@ function Formulario() {
   return (
     <div className="max-w-4xl mx-auto p-6 text-black bg-white rounded shadow-md">
       <h2 className="text-lg font-bold text-center text-green-600 mb-4">
-        REGISTRAR NUEVO CONSUM
+        REGISTRAR NUEVO CONSUMO
       </h2>
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="flex justify-between items-center">
@@ -137,6 +182,94 @@ function Formulario() {
           {/* Muestra el stock de la unidad seleccionada */}
           <StockDisplay stock={stock} />
         </div>
+
+        {/* Campos adicionales */}
+        <input
+          type="text"
+          name="ordenConsumo"
+          value={formData.ordenConsumo}
+          onChange={handleInputChange}
+          placeholder="Orden de Consumo"
+          className="w-full border px-4 py-2 rounded"
+        />
+        <input
+          type="text"
+          name="clasificador"
+          value={formData.clasificador}
+          onChange={handleInputChange}
+          placeholder="Clasificador"
+          className="w-full border px-4 py-2 rounded"
+        />
+        <input
+          type="text"
+          name="meta"
+          value={formData.meta}
+          onChange={handleInputChange}
+          placeholder="Meta"
+          className="w-full border px-4 py-2 rounded"
+        />
+        <input
+          type="text"
+          name="combustible"
+          value={formData.combustible}
+          onChange={handleInputChange}
+          placeholder="Combustible"
+          className="w-full border px-4 py-2 rounded"
+        />
+        <input
+          type="number"
+          name="cantidad"
+          value={formData.cantidad}
+          onChange={handleInputChange}
+          placeholder="Cantidad"
+          className="w-full border px-4 py-2 rounded"
+        />
+        <input
+          type="text"
+          name="unidad"
+          value={formData.unidad}
+          onChange={handleInputChange}
+          placeholder="Unidad"
+          className="w-full border px-4 py-2 rounded"
+        />
+        {/* Campos para el nombre y apellido del conductor */}
+        <div>
+          <label htmlFor="conductorNombre" className="block text-sm font-semibold">
+            Nombre del conductor:
+          </label>
+          <input
+            type="text"
+            id="conductorNombre"
+            name="conductorNombre"
+            value={formData.conductorNombre}
+            onChange={handleInputChange}
+            placeholder="Nombre"
+            className="w-full border px-4 py-2 rounded"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="conductorApellido" className="block text-sm font-semibold">
+            Apellido del conductor:
+          </label>
+          <input
+            type="text"
+            id="conductorApellido"
+            name="conductorApellido"
+            value={formData.conductorApellido}
+            onChange={handleInputChange}
+            placeholder="Apellido"
+            className="w-full border px-4 py-2 rounded"
+          />
+        </div>
+
+        <textarea
+          name="observacion"
+          value={formData.observacion}
+          onChange={handleInputChange}
+          placeholder="Observación"
+          className="w-full border px-4 py-2 rounded"
+        ></textarea>
 
         {/*<FormularioConsumo formData={formData} setFormData={setFormData} />*/}
 

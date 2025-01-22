@@ -1,6 +1,6 @@
 // src/app/formulario/page.js
 import React from 'react';
-import Formulario from '../../components/formulario/Formulario';  // Importa el componente Formulario
+import Formulario from '../../Components/formulario/formulario';  // Importa el componente Formulario
 
 function Page() {
   return (
