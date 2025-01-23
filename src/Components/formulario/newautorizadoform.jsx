@@ -1,9 +1,9 @@
-// NewSolicitanteForm.jsx
+// NewAutorizadoForm.jsx
 import React, { useState } from "react";
 import axios from "axios";
 
-function NewSolicitanteForm({ onSubmitSuccess }) {
-  const [newSolicitante, setNewSolicitante] = useState({
+function NewAutorizadoForm({ onSubmitSuccess }) {
+  const [newAutorizado, setNewAutorizado] = useState({
     nombres: "",
     apellidos: "",
   });
@@ -11,7 +11,7 @@ function NewSolicitanteForm({ onSubmitSuccess }) {
   // Función para manejar los cambios en los campos de entrada
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setNewSolicitante((prevState) => ({
+    setNewAutorizado((prevState) => ({
       ...prevState,
       [name]: value,
     }));
@@ -21,10 +21,10 @@ function NewSolicitanteForm({ onSubmitSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:3000/api/solicitantes", newSolicitante);
+      const response = await axios.post("http://localhost:3000/api/autorizados", newAutorizado);
       onSubmitSuccess(response.data); // Llama a la función de éxito pasada como prop
       // Puedes limpiar el formulario después de éxito
-      setNewSolicitante({ nombres: "", apellidos: "" });
+      setNewAutorizado({ nombres: "", apellidos: "" });
     } catch (error) {
       console.error("Error al agregar solicitante:", error);
     }
@@ -32,14 +32,14 @@ function NewSolicitanteForm({ onSubmitSuccess }) {
 
   return (
     <div className="mb-4">
-      <h3 className="text-xl font-semibold">Agregar Nuevo Solicitante</h3>
+      <h3 className="text-xl font-semibold">Agregar Nuevo Autorizante</h3>
       <div>
         <label htmlFor="nombres" className="block text-sm font-medium">Nombres</label>
         <input
           type="text"
           id="nombres"
           name="nombres"
-          value={newSolicitante.nombres}
+          value={newAutorizado.nombres}
           onChange={handleInputChange}
           className="w-full p-2 border rounded mt-2"
           placeholder="Nombres"
@@ -51,7 +51,7 @@ function NewSolicitanteForm({ onSubmitSuccess }) {
           type="text"
           id="apellidos"
           name="apellidos"
-          value={newSolicitante.apellidos}
+          value={newAutorizado.apellidos}
           onChange={handleInputChange}
           className="w-full p-2 border rounded mt-2"
           placeholder="Apellidos"
@@ -61,10 +61,10 @@ function NewSolicitanteForm({ onSubmitSuccess }) {
         onClick={handleSubmit}
         className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700"
       >
-        Agregar Solicitante
+        Agregar Autorizado
       </button>
     </div>
   );
 }
 
-export default NewSolicitanteForm;
+export default NewAutorizadoForm;

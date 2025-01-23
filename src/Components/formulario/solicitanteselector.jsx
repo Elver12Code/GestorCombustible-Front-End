@@ -1,3 +1,4 @@
+// SolicitanteSelector.jsx
 import React from "react";
 
 function SolicitanteSelector({ solicitantes, selectedSolicitante, onSolicitanteChange }) {
@@ -11,7 +12,7 @@ function SolicitanteSelector({ solicitantes, selectedSolicitante, onSolicitanteC
           id="solicitante"
           className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500"
           onChange={onSolicitanteChange}
-          value={selectedSolicitante || ""}
+          value={selectedSolicitante}
         >
           <option value="">Seleccione un Solicitante</option>
           {solicitantes && solicitantes.length > 0 ? (

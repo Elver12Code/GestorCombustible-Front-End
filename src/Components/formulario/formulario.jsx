@@ -4,15 +4,24 @@ import React, { useState, useEffect } from "react";
 import UnitSelector from "../formulario/UnitSelector";
 import StockDisplay from "../formulario/StockDisplay";
 import NewUnitForm from "../formulario/NewUnitForm";
-import FormularioConsumo from "./formconsumo";
+import NewSolicitanteForm from "../formulario/newsolicitantform";
+import NewAutorizadoForm from "../formulario/newautorizadoform";
+import SolicitanteSelector from "../formulario/solicitanteselector";
+import AutorizadoSelector from "../formulario/autorizadoselector";
 
 function Formulario() {
   const [units, setUnits] = useState([]); // Lista de unidades operativas
   const [selectedUnit, setSelectedUnit] = useState(null); // Unidad seleccionada
+  const [solicitantes, setSolicitantes] = useState([]); // Para manejar los solicitantes
+  const [selectedSolicitante, setSelectedSolicitante] = useState(""); // Estado para el solicitante seleccionado
+  const [autorizados, setAutorizados] = useState([]); // Para manejar los solicitantes
+  const [selectedAutorizado, setSelectedAutorizado] =useState("");
   const [stock, setStock] = useState(""); // Stock de la unidad seleccionada
   const [formNumber, setFormNumber] = useState(1); // Número del formulario
   const [formData, setFormData] = useState({
     unidadOperativa: "",
+    solicitante:"",
+    autorizado:"",
     ordenConsumo: "",
     clasificador: "",
     meta: "",
@@ -43,7 +52,24 @@ function Formulario() {
       .then((response) => response.json())
       .then((data) => setUnits(data))
       .catch((error) => console.error("Error al obtener unidades:", error));
-  }, []);
+    fetch("http://localhost:3000/api/solicitantes") // Obtener solicitantes
+      .then((response) => response.json())
+      .then((data) => setSolicitantes(data))
+      .catch((error) => console.error("Error al obtener solicitantes:", error));
+    fetch("http://localhost:3000/api/autorizados") // Obtener autorizados
+      .then((response) => response.json())
+      .then((data) => setAutorizados(data))
+      .catch((error) => console.error("Error al obtener autorizados:", error));
+    }, []);
+
+  // Manejar el cambio de solicitante
+  const handleNewSolicitante = (solicitante) => {
+    setSolicitantes((prevState) => [...prevState, solicitante]);
+  };
+  // Manejar el cambio de Autorizado
+  const handleNewAutorizado = (autorizado) => {
+    setAutorizados((prevState) => [...prevState, autorizado]);
+  };
 
   // Maneja el cambio de unidad operativa seleccionada
   const handleUnitChange = (event) => {
@@ -53,7 +79,6 @@ function Formulario() {
     setStock(unit?.stock || "");
     setFormData({ ...formData, unidadOperativa: unitId });
   };
-
   // Maneja el cambio en el formulario para agregar nueva unidad
   const handleNewUnitChange = (event) => {
     setNewUnit({
@@ -61,6 +86,21 @@ function Formulario() {
       [event.target.name]: event.target.value,
     });
   };
+  // Maneja el cambio de solicitante seleccionada
+  const handleSolicitanteChange = (event) => {
+    const solicitanteId = Number(event.target.value);
+    const solicitante = solicitantes.find((u) => u.id === solicitanteId);
+    setSelectedSolicitante(solicitante);
+    setFormData({ ...formData, solicitante: solicitanteId });
+  };
+  // Maneja el cambio de Autorizado seleccionada
+  const handleAutorizadoChange = (event) => {
+    const autorizadoId = Number(event.target.value);
+    const autorizado = autorizados.find((u) => u.id === autorizadoId);
+    setSelectedAutorizado(autorizado);
+    setFormData({ ...formData, autorizado: autorizadoId });
+  };
+  
 
   // Maneja el cambio en los campos del formulario
   const handleInputChange = (event) => {
@@ -97,7 +137,14 @@ function Formulario() {
   if (!selectedUnit) {
     alert("Por favor, seleccione una unidad operativa.");
     return;
+  }else if(!selectedSolicitante){
+    alert("Por favor, seleccione solicitante.");
+    return;
+  }else if(!selectedAutorizado){
+    alert("Por favor, seleccione autorizado.");
+    return;
   }
+
   if (formData.cantidad > stock) {
     alert("No hay suficiente stock.");
     return;
@@ -114,6 +161,8 @@ function Formulario() {
   // Datos a enviar al backend (sin formNumber ni fecha, ya que se generan en el backend)
   const dataToSend = {
     unidadOperativaId: selectedUnit.id,
+    solicitanteId: selectedSolicitante.id,
+    autorizadoId: selectedAutorizado.id,
     stock: stock,
     ordenConsumo: formData.ordenConsumo,
     clasificador: formData.clasificador,
@@ -143,6 +192,8 @@ function Formulario() {
         setFormNumber(formNumber + 1); // Solo se incrementa en el frontend
         setFormData({
           unidadOperativa: "",
+          solicitante:"",
+          autorizado:"",
           ordenConsumo: "",
           clasificador: "",
           meta: "",
@@ -184,6 +235,12 @@ function Formulario() {
         </h1>
         <NewUnitForm newUnit={newUnit} onUnitChange={handleNewUnitChange} onSubmit={handleNewUnitSubmit} />
 
+        {/* Formulario para agregar un nuevo solicitante */}
+        <NewSolicitanteForm onSubmitSuccess={handleNewSolicitante} />
+
+        {/* Formulario para agregar un nuevo solicitante */}
+        <NewAutorizadoForm onSubmitSuccess={handleNewAutorizado} />
+        
         {/* Selección de Unidad Operativa */}
         <div className="flex- justify-">
           <UnitSelector
@@ -195,6 +252,20 @@ function Formulario() {
           {/* Muestra el stock de la unidad seleccionada */}
           <StockDisplay stock={stock} />
         </div>
+
+        {/* Selector de Solicitante */}
+        <SolicitanteSelector
+          solicitantes={solicitantes}
+          selectedSolicitante={formData.solicitante}
+          onSolicitanteChange={handleSolicitanteChange}
+        />
+
+        {/* Selector de Autorizado */}
+        <AutorizadoSelector
+          autorizados={autorizados}
+          selectedAutorizado={formData.autorizado}
+          onAutorizadoChange={handleAutorizadoChange}
+        />
 
         {/* Campos adicionales */}
         <input
