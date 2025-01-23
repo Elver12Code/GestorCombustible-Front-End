@@ -44,7 +44,7 @@ export default function LoginForm() {
                 placeholder="USUARIO"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="w-full pr-10 pl-3 py-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-[#009CDE] text-[13px] text-black "
+                className="w-full pr-10 pl-3 py-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-[#6BD098] text-[13px] text-black "
                 required
               />
               <FiUser className="absolute top-2.5 right-3 text-black-400" size={20}/>
@@ -56,7 +56,7 @@ export default function LoginForm() {
                 placeholder="CONTRASEÑA"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-3 pr-10 py-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-blue-500 text-[13px]"
+                className="w-full pl-3 pr-10 py-2 border-b-2 border-gray-300 bg-transparent focus:outline-none focus:border-[#6BD098] text-[13px] text-black"
                 required
               />
               <MdLock className="absolute top-2.5 right-3 text-black-400" size={20}/>

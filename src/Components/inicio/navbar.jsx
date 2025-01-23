@@ -3,8 +3,15 @@ import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { LogOut, Home, PlusCircle } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
+  const router = useRouter();
+  
+  const handleLogout = ()=>{
+    router.push('log_out');
+  }
+
   return (
     <nav className="bg-[#4CD541] text-white px-4 py-2 flex items-center justify-between">
       {/* Left section - Logo and Municipality name */}
@@ -35,14 +42,14 @@ export default function Navbar() {
           <span>Inicio</span>
         </Link>
         <Link 
-          href="/nuevo-consumo" 
+          href="/formulario" 
           className="flex items-center space-x-1 hover:text-gray-200"
         >
           <PlusCircle size={20} />
           <span>Nuevo Consumo</span>
         </Link>
         <button 
-          onClick={() => console.log('Cerrar Sesión')} 
+          onClick={handleLogout} 
           className="flex items-center space-x-1 hover:text-gray-200"
         >
           <LogOut size={20} />
