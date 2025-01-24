@@ -8,6 +8,7 @@ import NewSolicitanteForm from "../formulario/newsolicitantform";
 import NewAutorizadoForm from "../formulario/newautorizadoform";
 import SolicitanteSelector from "../formulario/solicitanteselector";
 import AutorizadoSelector from "../formulario/autorizadoselector";
+import ValePdfGenerator from "../pdf/valepdfgenerator";
 
 function Formulario() {
   const [units, setUnits] = useState([]); // Lista de unidades operativas
@@ -33,6 +34,7 @@ function Formulario() {
     conductorApellido: "",
     placa: "",
     tipo: "",
+    forNumer: "",
     maquina:"",  
   });
 
@@ -195,6 +197,7 @@ function Formulario() {
           solicitante:"",
           autorizado:"",
           ordenConsumo: "",
+          formNumber: "",
           clasificador: "",
           meta: "",
           combustible: "",
@@ -414,6 +417,16 @@ function Formulario() {
           Registrar Consumo
         </button>
       </form>
+      <div className="max-w-4xl mx-auto p-6 text-black bg-white rounded shadow-md">
+      {/* ...resto del formulario */}
+      <ValePdfGenerator
+        formData={formData}
+        formNumber={formNumber}
+        selectedUnit={selectedUnit}
+        selectedSolicitante={selectedSolicitante}
+        selectedAutorizado={selectedAutorizado}
+      />
+      </div>
     </div>
   );
 }
