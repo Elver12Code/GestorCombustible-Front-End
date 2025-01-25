@@ -6,7 +6,8 @@ import { Italic } from "lucide-react";
 
 
 
-function ValePdfGenerator({ formData, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado }) {
+function ValePdfGenerator({ formData, stock, stockActual, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado }) {
+    
     
     const generatePDF = () => {
         // Verificar los datos antes de generar el PDF
@@ -14,11 +15,17 @@ function ValePdfGenerator({ formData, formNumber, selectedUnit, selectedSolicita
     console.log('selectedUnit:', selectedUnit); // Verifica la unidad seleccionada
     console.log('selectedSolicitante:', selectedSolicitante); // Verifica el solicitante seleccionado
     console.log('formNumber:', formNumber); // Verifica los datos del formulario
+    console.log('stock:', stock); // Verifica los datos del formulario
+    console.log('stockActual:', stockActual);  // stock actual
+
 
     const imgData = '/Escudo_de_Macusani.png';    
     const doc = new jsPDF();
 
     doc.addImage(imgData, 'PNG', 10, 3, 25, 25);
+
+    const imgQR = '/qr.png';    
+    doc.addImage(imgQR, 'PNG', 88, 250, 40, 40);
 
     // Título del PDF
     doc.setFont("times-roman", "italic");
@@ -29,7 +36,7 @@ function ValePdfGenerator({ formData, formNumber, selectedUnit, selectedSolicita
     // Título del PDF
     doc.setFontSize(18);
     doc.setTextColor(0,0,0);
-    doc.text("Vale de Combustible", 80, 20);
+    doc.text("Val de Combustible", 80, 20);
 
     
 
@@ -45,6 +52,7 @@ function ValePdfGenerator({ formData, formNumber, selectedUnit, selectedSolicita
       head: [[{ content: 'Descripcion del Consumo', colSpan: 2, styles: { halign: 'center' } }],],
       body: [
       
+        ['Señores:', ` ${formData.proveedorNombres} ${formData.proveedorApellidos}`],
         ['Solicito Entregar A:', ` ${selectedSolicitante.nombres} ${selectedSolicitante.apellidos}`],
         ['Autorizado Por:', ` ${selectedAutorizado.nombres} ${selectedAutorizado.apellidos}`],
         ['Vehiculo:', formData.maquina],
@@ -65,7 +73,7 @@ function ValePdfGenerator({ formData, formNumber, selectedUnit, selectedSolicita
       },
     });
     doc.autoTable({
-      startY: 100,
+      startY: 110,
       head: [[{ content: 'Descripcion del Combustible / Lubricante', colSpan: 2, styles: { halign: 'center' } }],],
       body: [
         ['Clasificador:', formData.clasificador],
@@ -78,7 +86,7 @@ function ValePdfGenerator({ formData, formNumber, selectedUnit, selectedSolicita
         1: { cellWidth: 90 }, // Ancho de la segunda columna
       },
       headStyles: {
-        fillColor: [76, 213, 65], // Color de fondo del encabezado (RGB)
+        fillColor: [9, 115, 0], // Color de fondo del encabezado (RGB)
       },
     });
     
@@ -94,26 +102,30 @@ function ValePdfGenerator({ formData, formNumber, selectedUnit, selectedSolicita
         1: { cellWidth: 90 }, // Ancho de la segunda columna
       },
       headStyles: {
-        fillColor: [76, 213, 65], // Color de fondo del encabezado (RGB)
+        fillColor: [9, 115, 0], // Color de fondo del encabezado (RGB)
       },
     });
 
     doc.autoTable({
       startY: 180,
-      head: [[{ content: 'OBSERVACIONES', colSpan: 2, styles: { halign: 'center' } }],],
+      head: [["OBSERVACIONES", "STOCK ACTUAL"]],
       body: [
-    
-        [formData.observacion],
-        
+          [formData.observacion, `Stock Inicial: ${stock}\nSaldo Anterior: ${stockActual+formData.cantidad}\nLo que se Atendió: ${formData.cantidad}\nSaldo Actual: ${stockActual}`],
       ],
       columnStyles: {
-        0: { cellWidth: 90 }, // Ancho de la primera columna
-        1: { cellWidth: 90 }, // Ancho de la segunda columna
+          0: { cellWidth: 90 }, // Ancho de la primera columna
+          1: { cellWidth: 90 }, // Ancho de la segunda columna
       },
       headStyles: {
-        fillColor: [76, 213, 65], // Color de fondo del encabezado (RGB)
+          fillColor: [9, 115, 0], // Color de fondo del encabezado (RGB)
+      },
+      styles: {
+          halign: 'left', // Alineación del texto en las celdas
+          valign: 'top',  // Alineación vertical del texto
       },
     });
+
+    
 
     // Información de la unidad operativa
     /*doc.text(`Unidad Operativa: ${selectedUnit ? selectedUnit.name : "No seleccionado"}`, 20, 60);

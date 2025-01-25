@@ -26,12 +26,16 @@ function Formulario() {
     ordenConsumo: "",
     clasificador: "",
     meta: "",
+    precioUnitario: "",
     combustible: "",
     cantidad: "",
     unidad: "",
     observacion: "",
     conductorNombre: "",
     conductorApellido: "",
+    proveedorNombres: "",
+    proveedorApellidos: "",
+    proveedorRuc:"",
     placa: "",
     tipo: "",
     forNumer: "",
@@ -155,7 +159,8 @@ function Formulario() {
   // Validar nombre y apellido del conductor
   if (!formData.cantidad.trim() || !formData.clasificador.trim() ||!formData.combustible.trim() ||!formData.meta.trim() 
     ||!formData.observacion.trim() || !formData.ordenConsumo.trim() ||!formData.unidad.trim() || !formData.conductorNombre.trim() 
-    || !formData.conductorApellido.trim() || !formData.maquina.trim() || !formData.tipo.trim() || !formData.placa.trim()) {
+    || !formData.conductorApellido.trim() || !formData.maquina.trim() || !formData.tipo.trim() || !formData.placa.trim() 
+    || !formData.proveedorApellidos.trim() || !formData.proveedorNombres.trim() || !formData.proveedorRuc.trim() ) {
     alert("Por favor, ingrese todos los campos.");
     return;
   }
@@ -175,6 +180,9 @@ function Formulario() {
     observacion: formData.observacion,
     conductorNombre: formData.conductorNombre, // Agregar nombre
     conductorApellido: formData.conductorApellido,
+    proveedorNombres: formData.proveedorNombres,
+    proveedorApellidos: formData.proveedorApellidos,
+    proveedorRuc: Number(formData.proveedorRuc),
     maquina: formData.maquina, // Máquina
     tipo: formData.tipo, // Tipo de máquina
     placa: formData.placa,
@@ -206,6 +214,9 @@ function Formulario() {
           observacion: "",
           conductorNombre: "",
           conductorApellido: "",
+          proveedorNombres:"",
+          proveedorApellidos:"",
+          proveedorRuc:"",
           maquina: "", // Limpia la máquina
           tipo: "", // Limpia el tipo
           placa: "", 
@@ -349,6 +360,49 @@ function Formulario() {
             className="w-full border px-4 py-2 rounded"
           />
         </div>
+        {/* Campos para el nombre y apellido del proveedor */}
+        <div>
+          <label htmlFor="proveedorNombres" className="block text-sm font-semibold">
+            Nombre del Proveedor:
+          </label>
+          <input
+            type="text"
+            id="proveedorNombres"
+            name="proveedorNombres"
+            value={formData.proveedorNombres}
+            onChange={handleInputChange}
+            placeholder="Nombres"
+            className="w-full border px-4 py-2 rounded"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="proveedorApellidos" className="block text-sm font-semibold">
+            Apellido del Proveedor:
+          </label>
+          <input
+            type="text"
+            id="proveedorApellidos"
+            name="proveedorApellidos"
+            value={formData.proveedorApellidos}
+            onChange={handleInputChange}
+            placeholder="Apellidos"
+            className="w-full border px-4 py-2 rounded"
+          />
+        </div>
+        <div>
+          <label htmlFor="proveedorRuc" className="block text-sm font-semibold">
+            Numero de RUC
+          </label>
+          <input
+            type="number"
+            name="proveedorRuc"
+            value={formData.proveedorRuc}
+            onChange={handleInputChange}
+            placeholder="Numero de RUC"
+            className="w-full border px-4 py-2 rounded"
+          />
+        </div>
 
         {/* Campo para la máquina */}
         <div>
@@ -425,6 +479,7 @@ function Formulario() {
         selectedUnit={selectedUnit}
         selectedSolicitante={selectedSolicitante}
         selectedAutorizado={selectedAutorizado}
+        stock={stock}
       />
       </div>
     </div>
