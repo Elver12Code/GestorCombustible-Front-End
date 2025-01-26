@@ -20,7 +20,9 @@ function Formulario() {
   const [stock, setStock] = useState(""); // Stock de la unidad seleccionada
   const [stockInicial, setStockInicial] = useState(""); // Stock inicial
   const [formNumber, setFormNumber] = useState(1); // Número del formulario
-  const [consumos, setConsumos] = useState([]);
+  const [showNewUnitForm, setShowNewUnitForm] = useState(false);
+  const [showNewSolicitanteForm, setShowNewSolicitanteForm] = useState(false);
+  const [showNewAutorizadoForm, setShowNewAutorizadoForm] = useState(false);
   const [formData, setFormData] = useState({
     unidadOperativa: "",
     solicitante:"",
@@ -225,10 +227,10 @@ function Formulario() {
           proveedorNombres:"",
           proveedorApellidos:"",
           proveedorRuc:"",
-          maquina: "", // Limpia la máquina
-          tipo: "", // Limpia el tipo
+          maquina: "", 
+          tipo: "", 
           placa: "", 
-        }); // Limpia el formulario
+        }); 
         
       } else {
         alert("Hubo un problema al registrar el consumo.");
@@ -253,33 +255,70 @@ function Formulario() {
         </div>
 
         {/* Agregar Nueva Unidad */}
-        <h1 className="flex items-center">
-          <strong>AGREGAR NUEVA UNIDADddd</strong>
-        </h1>
-        <NewUnitForm newUnit={newUnit} onUnitChange={handleNewUnitChange} onSubmit={handleNewUnitSubmit} />
-
-        {/* Formulario para agregar un nuevo solicitante */}
-        <NewSolicitanteForm onSubmitSuccess={handleNewSolicitante} />
-
-        {/* Formulario para agregar un nuevo solicitante */}
-        <NewAutorizadoForm onSubmitSuccess={handleNewAutorizado} />
+      <div className="mb-4">
+        <button
+          type="button"
+          onClick={() => setShowNewUnitForm(!showNewUnitForm)}
+          className="text-white bg-blue-500 hover:bg-blue-700 px-4 py-2 rounded"
+        >
+          {showNewUnitForm ? "Ocultar Unidad Operativa" : "Agregar Unidad Operativa"}
+        </button>
+        {showNewUnitForm && (
+          <NewUnitForm
+            newUnit={newUnit}
+            onUnitChange={handleNewUnitChange}
+            onSubmit={handleNewUnitSubmit}
+          />
+        )}
+      </div>
         
-        {/* Selección de Unidad Operativa */}
-        <div className="flex- justify-">
+        {/* Botón y contenido para Agregar Nuevo Solicitante */}
+      <div className="mb-4">
+        <button
+          type="button"
+          onClick={() => setShowNewSolicitanteForm(!showNewSolicitanteForm)}
+          className="text-white  bg-red-600 hover:bg-red-400 px-4 py-2 rounded"
+        >
+          {showNewSolicitanteForm ? "Ocultar Solicitante" : "Agregar Nuevo Solicitante"}
+        </button>
+        {showNewSolicitanteForm && (
+          <NewSolicitanteForm onSubmitSuccess={handleNewSolicitante} />
+        )}
+      </div>
+
+        {/* Botón y contenido para Agregar Nuevo Autorizado */}
+      <div className="mb-4">
+        <button
+          type="button"
+          onClick={() => setShowNewAutorizadoForm(!showNewAutorizadoForm)}
+          className="text-white bg-green-600 hover:bg-green-500 px-4 py-2 rounded"
+        >
+          {showNewAutorizadoForm ? "Ocultar Autorizado" : "Agregar Nuevo Autorizado"}
+        </button>
+        {showNewAutorizadoForm && (
+          <NewAutorizadoForm onSubmitSuccess={handleNewAutorizado} />
+        )}
+      </div>
+        
+        <h1 className="flex items-center">
+          <strong>Nueva Unidad Operativa</strong>
+        </h1>
+        <div className="flex justify-between">
           <UnitSelector
             units={units}
             selectedUnit={formData.unidadOperativa}
             onUnitChange={handleUnitChange}
           />
+          <StockDisplay stock={stock} label="Stock" />
 
-          {/* Muestra el stock de la unidad seleccionada */}
-          <StockDisplay stock={stock} />
+          <StockDisplay stock={stockInicial} label="Stock Inicial"  /> 
+        </div> 
 
-        </div>
-        <StockDisplay stock={stockInicial} /> {/* Aquí muestra el stock inicial */}
-
-        
-        {/* Selector de Solicitante */}
+        <div >
+        <h1 className="flex items-center">
+          <strong>Solicitante</strong>
+        </h1>
+          {/* Selector de Solicitante */}
         <SolicitanteSelector
           solicitantes={solicitantes}
           selectedSolicitante={formData.solicitante}
@@ -287,190 +326,228 @@ function Formulario() {
         />
 
         {/* Selector de Autorizado */}
+        <h1 className="flex items-center">
+          <strong>Autorizado</strong>
+        </h1>
         <AutorizadoSelector
           autorizados={autorizados}
           selectedAutorizado={formData.autorizado}
           onAutorizadoChange={handleAutorizadoChange}
         />
-
-        {/* Campos adicionales */}
-        <input
-          type="text"
-          name="ordenConsumo"
-          value={formData.ordenConsumo}
-          onChange={handleInputChange}
-          placeholder="Orden de Consumo"
-          className="w-full border px-4 py-2 rounded"
-        />
-        <input
-          type="text"
-          name="clasificador"
-          value={formData.clasificador}
-          onChange={handleInputChange}
-          placeholder="Clasificador"
-          className="w-full border px-4 py-2 rounded"
-        />
-        <input
-          type="text"
-          name="meta"
-          value={formData.meta}
-          onChange={handleInputChange}
-          placeholder="Meta"
-          className="w-full border px-4 py-2 rounded"
-        />
-        <input
-          type="text"
-          name="combustible"
-          value={formData.combustible}
-          onChange={handleInputChange}
-          placeholder="Combustible"
-          className="w-full border px-4 py-2 rounded"
-        />
-        <input
-          type="number"
-          name="cantidad"
-          value={formData.cantidad}
-          onChange={handleInputChange}
-          placeholder="Cantidad"
-          className="w-full border px-4 py-2 rounded"
-        />
-        <input
-          type="text"
-          name="unidad"
-          value={formData.unidad}
-          onChange={handleInputChange}
-          placeholder="Unidad"
-          className="w-full border px-4 py-2 rounded"
-        />
-        {/* Campos para el nombre y apellido del conductor */}
-        <div>
-          <label htmlFor="conductorNombre" className="block text-sm font-semibold">
-            Nombre del conductor:
-          </label>
-          <input
-            type="text"
-            id="conductorNombre"
-            name="conductorNombre"
-            value={formData.conductorNombre}
-            onChange={handleInputChange}
-            placeholder="Nombre"
-            className="w-full border px-4 py-2 rounded"
-          />
         </div>
 
         <div>
-          <label htmlFor="conductorApellido" className="block text-sm font-semibold">
-            Apellido del conductor:
-          </label>
-          <input
-            type="text"
-            id="conductorApellido"
-            name="conductorApellido"
-            value={formData.conductorApellido}
-            onChange={handleInputChange}
-            placeholder="Apellido"
-            className="w-full border px-4 py-2 rounded"
-          />
-        </div>
-        {/* Campos para el nombre y apellido del proveedor */}
-        <div>
-          <label htmlFor="proveedorNombres" className="block text-sm font-semibold">
-            Nombre del Proveedor:
-          </label>
-          <input
-            type="text"
-            id="proveedorNombres"
-            name="proveedorNombres"
-            value={formData.proveedorNombres}
-            onChange={handleInputChange}
-            placeholder="Nombres"
-            className="w-full border px-4 py-2 rounded"
-          />
-        </div>
+          <h1 className="flex items-center">
+            <strong>DATOS</strong>
+            </h1>
+          <div className="grid grid-cols-3 gap-4">
+            
+            {/* Campos adicionales */}
+            <div>
+            <label className="text-[13px] text-slate-400">Orden Consumo</label>
 
-        <div>
-          <label htmlFor="proveedorApellidos" className="block text-sm font-semibold">
-            Apellido del Proveedor:
-          </label>
-          <input
-            type="text"
-            id="proveedorApellidos"
-            name="proveedorApellidos"
-            value={formData.proveedorApellidos}
-            onChange={handleInputChange}
-            placeholder="Apellidos"
-            className="w-full border px-4 py-2 rounded"
-          />
-        </div>
-        <div>
-          <label htmlFor="proveedorRuc" className="block text-sm font-semibold">
-            Numero de RUC
-          </label>
-          <input
-            type="number"
-            name="proveedorRuc"
-            value={formData.proveedorRuc}
-            onChange={handleInputChange}
-            placeholder="Numero de RUC"
-            className="w-full border px-4 py-2 rounded"
-          />
-        </div>
+            <input
+              type="text"
+              name="ordenConsumo"
+              value={formData.ordenConsumo}
+              onChange={handleInputChange}
+              placeholder="Orden de Consumo"
+              className="w-full border px-4 py-2 rounded"
+            />
+            </div>
+            <div>
+            <label className="text-[13px] text-slate-400">Orden Consumo</label>
+            <input
+              type="text"
+              name="clasificador"
+              value={formData.clasificador}
+              onChange={handleInputChange}
+              placeholder="Clasificador"
+              className="w-full border px-4 py-2 rounded"
+            />
+            </div>
+            <div>
+            <label className="text-[13px] text-slate-400">Meta</label>
+            <input
+              type="text"
+              name="meta"
+              value={formData.meta}
+              onChange={handleInputChange}
+              placeholder="Meta"
+              className="w-full border px-4 py-2 rounded"
+            />
+            </div>  
+          </div>
+            <h1 className=" flex items-center">
+            <strong>CARACTERISTICAS DEL VEHICULO</strong>
+            </h1>
+            <div className="grid grid-cols-3 gap-4">
+            
+            {/* Campo para la máquina */}
+            <div>
+            <label className="text-[13px] text-slate-400">Maquina/Vehiculo</label>
 
-        {/* Campo para la máquina */}
-        <div>
-          <label htmlFor="maquina" className="block text-sm font-semibold">
-            Máquina:
-          </label>
-          <input
-            type="text"
-            id="maquina"
-            name="maquina"
-            value={formData.maquina}
-            onChange={handleInputChange}
-            placeholder="Nombre de la máquina"
-            className="w-full border px-4 py-2 rounded"
-          />
+              <input
+                type="text"
+                id="maquina"
+                name="maquina"
+                value={formData.maquina}
+                onChange={handleInputChange}
+                placeholder="Nombre de la máquina"
+                className="w-full border px-4 py-2 rounded"
+              />
+            </div>
+            {/* Campo para la placa */}
+            <div>
+            <label className="text-[13px] text-slate-400">Placa</label>
+              <input
+                type="text"
+                id="placa"
+                name="placa"
+                value={formData.placa}
+                onChange={handleInputChange}
+                placeholder="Placa de la máquina"
+                className="w-full border px-4 py-2 rounded"
+              />
+            </div>
+      
+            {/* Campo para el tipo de máquina */}
+            <div>
+            <label className="text-[13px] text-slate-400">Tipo</label>
+              <input
+                type="text"
+                id="tipo"
+                name="tipo"
+                value={formData.tipo}
+                onChange={handleInputChange}
+                placeholder="Tipo de máquina"
+                className="w-full border px-4 py-2 rounded"
+              />
+            </div>
+            </div>
+            <h1 className=" flex items-center">
+            <strong>DESCRIPCION DEL COMBUSTIBLE</strong>
+            </h1>
+            
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+              <label className="text-[13px] text-slate-400">Combustible</label>
+              <input
+              type="text"
+              name="combustible"
+              value={formData.combustible}
+              onChange={handleInputChange}
+              placeholder="Combustible"
+              className="w-full border px-4 py-2 rounded"
+              />
+              </div>
+              <div>
+              <label className="text-[13px] text-slate-400">Cantidad</label>
+              <input
+              type="number"
+              name="cantidad"
+              value={formData.cantidad}
+              onChange={handleInputChange}
+              placeholder="Cantidad"
+              className="w-full border px-4 py-2 rounded"
+              />
+              </div>
+              <div>
+              <label className="text-[13px] text-slate-400">Unidad</label>
+              <input
+              type="text"
+              name="unidad"
+              value={formData.unidad}
+              onChange={handleInputChange}
+              placeholder="Unidad"
+              className="w-full border px-4 py-2 rounded"
+              />
+              </div>
+            </div>
+            <h1 className="flex items-center">
+            <strong>DATOS DEL CONDUCTOR</strong>
+            </h1>
+            <div className="grid grid-cols-3 gap-4" >   
+            <div>
+            <label className="text-[13px] text-slate-400">Nombre del Conductor</label>
+              <input
+                type="text"
+                id="conductorNombre"
+                name="conductorNombre"
+                value={formData.conductorNombre}
+                onChange={handleInputChange}
+                placeholder="Nombre"
+                className="w-full border px-4 py-2 rounded"
+              />
+            </div>
+      
+            <div>
+            <label className="text-[13px] text-slate-400">Apellido del Conductor</label>
+              <input
+                type="text"
+                id="conductorApellido"
+                name="conductorApellido"
+                value={formData.conductorApellido}
+                onChange={handleInputChange}
+                placeholder="Apellido"
+                className="w-full border px-4 py-2 rounded"
+              />
+            </div>
+            </div>
+            <h1 className="flex items-center">
+            <strong>DATOS DEL PROVEEDOR</strong>
+            </h1>
+            <div className="grid grid-cols-3 gap-4">
+            <div>
+            <label className="text-[13px] text-slate-400">Nombre del Proveedor</label>
+              <input
+                type="text"
+                id="proveedorNombres"
+                name="proveedorNombres"
+                value={formData.proveedorNombres}
+                onChange={handleInputChange}
+                placeholder="Nombres"
+                className="w-full border px-4 py-2 rounded"
+              />
+            </div>
+            <div>
+            <label className="text-[13px] text-slate-400">Apellido del Proveedor</label>
+              <input
+                type="text"
+                id="proveedorApellidos"
+                name="proveedorApellidos"
+                value={formData.proveedorApellidos}
+                onChange={handleInputChange}
+                placeholder="Apellidos"
+                className="w-full border px-4 py-2 rounded"
+              />
+            </div>
+            <div>
+            <label className="text-[13px] text-slate-400">RUC</label>
+              <input
+                type="number"
+                name="proveedorRuc"
+                value={formData.proveedorRuc}
+                onChange={handleInputChange}
+                placeholder="Numero de RUC"
+                className="w-full border px-4 py-2 rounded"
+              />
+            </div>
+            </div>
+            
+            <label className="text-[13px] text-slate-400">Observacion</label>
+            <div className="flex">
+            <textarea
+              name="observacion"
+              value={formData.observacion}
+              onChange={handleInputChange}
+              placeholder="Observación"
+              className="w-full border px-4 py-2 rounded"
+            ></textarea>
+            </div>
+      
         </div>
-
-        {/* Campo para el tipo de máquina */}
-        <div>
-          <label htmlFor="tipo" className="block text-sm font-semibold">
-            Tipo de Máquina:
-          </label>
-          <input
-            type="text"
-            id="tipo"
-            name="tipo"
-            value={formData.tipo}
-            onChange={handleInputChange}
-            placeholder="Tipo de máquina"
-            className="w-full border px-4 py-2 rounded"
-          />
-        </div>
-
-        {/* Campo para la placa */}
-        <div>
-          <label htmlFor="placa" className="block text-sm font-semibold">
-            Placa de la Máquina:
-          </label>
-          <input
-            type="text"
-            id="placa"
-            name="placa"
-            value={formData.placa}
-            onChange={handleInputChange}
-            placeholder="Placa de la máquina"
-            className="w-full border px-4 py-2 rounded"
-          />
-        </div>
-
-        <textarea
-          name="observacion"
-          value={formData.observacion}
-          onChange={handleInputChange}
-          placeholder="Observación"
-          className="w-full border px-4 py-2 rounded"
-        ></textarea>
+        
 
         {/* Enviar el formulario de consumo */}
         <button

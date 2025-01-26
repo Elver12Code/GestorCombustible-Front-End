@@ -45,7 +45,7 @@ function NewUnitForm({ newUnit, onUnitChange, onSubmit }) {
       </div>
       <button
         type="submit"
-        className="mt-6 bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700"
+        className="mt-6 bg-green-600 text-white py-2 px-4 rounded shadow hover:bg-green-300"
         onClick={onSubmit}
       >
         Agregar

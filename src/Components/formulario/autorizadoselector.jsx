@@ -5,9 +5,7 @@ function AutorizadoSelector({ autorizados, selectedAutorizado, onAutorizadoChang
   return (
     <div className="flex grid-cols-2 gap-4">
       <div>
-        <label htmlFor="autorizado" className="block text-sm font-medium">
-        Autorizado
-        </label>
+        
         <select
           id="autorizado"
           className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500"

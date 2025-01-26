@@ -5,9 +5,7 @@ function SolicitanteSelector({ solicitantes, selectedSolicitante, onSolicitanteC
   return (
     <div className="flex grid-cols-2 gap-4">
       <div>
-        <label htmlFor="solicitante" className="block text-sm font-medium">
-          Solicitante
-        </label>
+        
         <select
           id="solicitante"
           className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500"

@@ -31,8 +31,7 @@ function NewSolicitanteForm({ onSubmitSuccess }) {
   };
 
   return (
-    <div className="mb-4">
-      <h3 className="text-xl font-semibold">Agregar Nuevo Solicitante</h3>
+    <div className="flex justify-between grid-cols-2 gap-4">
       <div>
         <label htmlFor="nombres" className="block text-sm font-medium">Nombres</label>
         <input
@@ -59,7 +58,7 @@ function NewSolicitanteForm({ onSubmitSuccess }) {
       </div>
       <button
         onClick={handleSubmit}
-        className="mt-4 w-full bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700"
+        className="mt-6 bg-green-600 text-white py-2 px-4 rounded shadow hover:bg-green-500"
       >
         Agregar Solicitante
       </button>

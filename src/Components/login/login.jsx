@@ -35,7 +35,7 @@ export default function LoginForm() {
           <img src="/logo.jpg" alt="OGC Logo" className="h-20 mb-8" />
           <h2 className="text-2xl font-bold mb-2 text-center">Iniciar Sesión</h2>
           <p className="text-[#097E00] font-semibold text-sm mb-8 text-center text-[15px]">
-            Sistema de Evaluación de Programas de Estudio para la Acreditación
+            Sistema de Gestion de Combustible
           </p>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="relative">
