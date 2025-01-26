@@ -190,7 +190,7 @@ function Formulario() {
     conductorApellido: formData.conductorApellido,
     proveedorNombres: formData.proveedorNombres,
     proveedorApellidos: formData.proveedorApellidos,
-    proveedorRuc: Number(formData.proveedorRuc),
+    proveedorRuc: formData.proveedorRuc,
     maquina: formData.maquina, // Máquina
     tipo: formData.tipo, // Tipo de máquina
     placa: formData.placa,
