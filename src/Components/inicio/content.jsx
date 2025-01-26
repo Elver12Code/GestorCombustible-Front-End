@@ -48,30 +48,35 @@ export default function ConsumoTable() {
               <th className="border px-4 py-2 text-left">Combustible</th>
               <th className="border px-4 py-2 text-left">Unidad</th>
               <th className="border px-4 py-2 text-left">Cant</th>
-              <th className="border px-4 py-2 text-left">P/U</th>
-              <th className="border px-4 py-2 text-left">Total</th>
               <th className="border px-4 py-2 text-left">Meta</th>
+              <th className="border px-4 py-2 text-left">Unidad/Op</th>
+
             </tr>
           </thead>
           <tbody>
             {data.length > 0 ? (
-              data.map((item) => (
-                <tr key={item.id}>
+              [...data].reverse().map((item) =>{
+                console.log(item); // Verifica si placa tiene valor
+                return(
+                  <tr key={item.id}>
                   <td className="border px-4 py-2">{item.id}</td>
                   <td className="border px-4 py-2">{item.formNumber}</td>
                   <td className="border px-4 py-2">{item.fecha}</td>
                   <td className="border px-4 py-2">{item.solicitante ? item.solicitante.nombres : 'No disponible'}</td>
                   <td className="border px-4 py-2">{item.conductor ? item.conductor.nombres : 'No disponible'}</td>
                   <td className="border px-4 py-2">{item.maquina ? item.maquina.nombre : 'No disponible'}</td>
-                  <td className="border px-4 py-2">{item.placa}</td>
+                  <td className="border px-4 py-2">{item.maquina ? item.maquina.placa : 'No disponible'}</td>
                   <td className="border px-4 py-2">{item.combustible}</td>
                   <td className="border px-4 py-2">{item.unidad}</td>
                   <td className="border px-4 py-2">{item.cantidad}</td>
-                  <td className="border px-4 py-2">{item.cantidad}</td>
-                  <td className="border px-4 py-2">{item.total}</td>
                   <td className="border px-4 py-2">{item.meta}</td>
+                  <td className="border px-4 py-2">{item.unidadoperativa ? item.unidadoperativa.id : 'No Disponible'}</td>
+                  
                 </tr>
-              ))
+                );
+                
+                
+              })
             ) : (
               <tr>
                 <td colSpan="12" className="border px-4 py-2 text-center">
@@ -79,6 +84,7 @@ export default function ConsumoTable() {
                 </td>
               </tr>
             )}
+            
           </tbody>
         </table>
       </div>

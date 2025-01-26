@@ -18,7 +18,9 @@ function Formulario() {
   const [autorizados, setAutorizados] = useState([]); // Para manejar los solicitantes
   const [selectedAutorizado, setSelectedAutorizado] =useState("");
   const [stock, setStock] = useState(""); // Stock de la unidad seleccionada
+  const [stockInicial, setStockInicial] = useState(""); // Stock inicial
   const [formNumber, setFormNumber] = useState(1); // Número del formulario
+  const [consumos, setConsumos] = useState([]);
   const [formData, setFormData] = useState({
     unidadOperativa: "",
     solicitante:"",
@@ -45,6 +47,7 @@ function Formulario() {
   const [newUnit, setNewUnit] = useState({
     name: "",
     stock: "",
+    stockInicial: ""
   });
 
   // Obtener las unidades operativas desde el backend
@@ -81,10 +84,15 @@ function Formulario() {
   const handleUnitChange = (event) => {
     const unitId = Number(event.target.value);
     const unit = units.find((u) => u.id === unitId);
+    console.log("Unidad seleccionada:", unit);  // Verifica la unidad seleccionada
+
     setSelectedUnit(unit);
     setStock(unit?.stock || "");
+    setStockInicial(unit?.stockInicial || "");
+    console.log("Stock actualizado:", unit?.stock);  // Verifica si el stock se actualiza
     setFormData({ ...formData, unidadOperativa: unitId });
   };
+  
   // Maneja el cambio en el formulario para agregar nueva unidad
   const handleNewUnitChange = (event) => {
     setNewUnit({
@@ -117,7 +125,7 @@ function Formulario() {
   // Enviar nueva unidad operativa al backend
   const handleNewUnitSubmit = (event) => {
     event.preventDefault();
-    if (!newUnit.name.trim() || !newUnit.stock.trim()) {
+    if (!newUnit.name.trim() || !newUnit.stock.trim() || !newUnit.stockInicial.trim()) {
       alert("Por favor, complete todos los campos antes de agregar una nueva unidad.");
       return;
     }
@@ -133,7 +141,7 @@ function Formulario() {
       .then((response) => response.json())
       .then((data) => {
         setUnits([...units, data]);
-        setNewUnit({ name: "", stock: "" });
+        setNewUnit({ name: "", stock: "", stockInicial: "" });
       })
       .catch((error) => console.error("Error al agregar nueva unidad:", error));
   };
@@ -221,6 +229,7 @@ function Formulario() {
           tipo: "", // Limpia el tipo
           placa: "", 
         }); // Limpia el formulario
+        
       } else {
         alert("Hubo un problema al registrar el consumo.");
       }
@@ -245,7 +254,7 @@ function Formulario() {
 
         {/* Agregar Nueva Unidad */}
         <h1 className="flex items-center">
-          <strong>AGREGAR NUEVA UNIDAD</strong>
+          <strong>AGREGAR NUEVA UNIDADddd</strong>
         </h1>
         <NewUnitForm newUnit={newUnit} onUnitChange={handleNewUnitChange} onSubmit={handleNewUnitSubmit} />
 
@@ -265,8 +274,11 @@ function Formulario() {
 
           {/* Muestra el stock de la unidad seleccionada */}
           <StockDisplay stock={stock} />
-        </div>
 
+        </div>
+        <StockDisplay stock={stockInicial} /> {/* Aquí muestra el stock inicial */}
+
+        
         {/* Selector de Solicitante */}
         <SolicitanteSelector
           solicitantes={solicitantes}
@@ -460,9 +472,6 @@ function Formulario() {
           className="w-full border px-4 py-2 rounded"
         ></textarea>
 
-        {/*<FormularioConsumo formData={formData} setFormData={setFormData} />*/}
-
-
         {/* Enviar el formulario de consumo */}
         <button
           type="submit"
@@ -480,6 +489,7 @@ function Formulario() {
         selectedSolicitante={selectedSolicitante}
         selectedAutorizado={selectedAutorizado}
         stock={stock}
+        stockInicial={stockInicial}
       />
       </div>
     </div>

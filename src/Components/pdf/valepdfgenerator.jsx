@@ -6,7 +6,7 @@ import { Italic } from "lucide-react";
 
 
 
-function ValePdfGenerator({ formData, stock, stockActual, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado }) {
+function ValePdfGenerator({ formData, stock, stockInicial, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado }) {
     
     
     const generatePDF = () => {
@@ -16,13 +16,16 @@ function ValePdfGenerator({ formData, stock, stockActual, formNumber, selectedUn
     console.log('selectedSolicitante:', selectedSolicitante); // Verifica el solicitante seleccionado
     console.log('formNumber:', formNumber); // Verifica los datos del formulario
     console.log('stock:', stock); // Verifica los datos del formulario
-    console.log('stockActual:', stockActual);  // stock actual
 
 
     const imgData = '/Escudo_de_Macusani.png';    
     const doc = new jsPDF();
 
     doc.addImage(imgData, 'PNG', 10, 3, 25, 25);
+   
+    doc.setFontSize(10);
+    doc.setFont("times");
+    doc.text("RUC: 20206921898", 10,32)
 
     const imgQR = '/qr.png';    
     doc.addImage(imgQR, 'PNG', 88, 250, 40, 40);
@@ -43,9 +46,9 @@ function ValePdfGenerator({ formData, stock, stockActual, formNumber, selectedUn
     // Información del formulario
     doc.setFontSize(12);
     doc.setFont("times");
-    doc.text(`Orden Consumo: ${formData.ordenConsumo}`, 15, 35)
-    doc.text(`N°: ${formNumber || "No Disponible"}`, 140, 35);
-    doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 160, 35);
+    doc.text(`Orden Consumo: ${formData.ordenConsumo}`, 15, 40)
+    doc.text(`N°: ${formNumber || "No Disponible"}`, 140, 40);
+    doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 160, 40);
 
     doc.autoTable({
       startY: 45,
@@ -110,7 +113,7 @@ function ValePdfGenerator({ formData, stock, stockActual, formNumber, selectedUn
       startY: 180,
       head: [["OBSERVACIONES", "STOCK ACTUAL"]],
       body: [
-          [formData.observacion, `Stock Inicial: ${stock}\nSaldo Anterior: ${stockActual+formData.cantidad}\nLo que se Atendió: ${formData.cantidad}\nSaldo Actual: ${stockActual}`],
+          [formData.observacion, `Stock Inicial: ${stockInicial}\nSaldo Anterior: ${stock}\nLo que se Atendió: ${formData.cantidad}\nSaldo Actual: ${stock-formData.cantidad}`],
       ],
       columnStyles: {
           0: { cellWidth: 90 }, // Ancho de la primera columna

@@ -30,6 +30,19 @@ function NewUnitForm({ newUnit, onUnitChange, onSubmit }) {
           onChange={onUnitChange}
         />
       </div>
+      <div>
+        <label htmlFor="stockInicial" className="block text-sm font-medium">
+          Stock Inicial
+        </label>
+        <input
+          type="number"
+          id="stockInicial"
+          name="stockInicial"
+          className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500"
+          value={newUnit.stockInicial}
+          onChange={onUnitChange}
+        />
+      </div>
       <button
         type="submit"
         className="mt-6 bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700"
