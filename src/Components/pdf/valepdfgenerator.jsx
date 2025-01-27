@@ -38,7 +38,7 @@ export const generatePDF = ( formData, stock, stockInicial, formNumber, selected
       startY: 45,
       head: [[{ content: 'Descripcion del Consumo', colSpan: 2, styles: { halign: 'center' } }]],
       body: [
-        ['Señores:', ` ${formData.proveedorNombres} ${formData.proveedorApellidos}`],
+        ['Señores:', formData.proveedorRuc, ` ${formData.proveedorNombres} ${formData.proveedorApellidos}`],
         ['Solicito Entregar A:', ` ${selectedSolicitante.nombres} ${selectedSolicitante.apellidos}`],
         ['Autorizado Por:', ` ${selectedAutorizado.nombres} ${selectedAutorizado.apellidos}`],
         ['Vehiculo:', formData.maquina],

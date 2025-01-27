@@ -356,7 +356,7 @@ function Formulario() {
               value={formData.ordenConsumo}
               onChange={handleInputChange}
               placeholder="Orden de Consumo"
-              className="w-full border px-4 py-2 rounded"
+              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
             />
             </div>
             <div>
@@ -367,7 +367,7 @@ function Formulario() {
               value={formData.clasificador}
               onChange={handleInputChange}
               placeholder="Clasificador"
-              className="w-full border px-4 py-2 rounded"
+              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
             />
             </div>
             <div>
@@ -378,7 +378,7 @@ function Formulario() {
               value={formData.meta}
               onChange={handleInputChange}
               placeholder="Meta"
-              className="w-full border px-4 py-2 rounded"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
             />
             </div>  
           </div>
@@ -398,7 +398,7 @@ function Formulario() {
                 value={formData.maquina}
                 onChange={handleInputChange}
                 placeholder="Nombre de la máquina"
-                className="w-full border px-4 py-2 rounded"
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
             </div>
             {/* Campo para la placa */}
@@ -411,7 +411,7 @@ function Formulario() {
                 value={formData.placa}
                 onChange={handleInputChange}
                 placeholder="Placa de la máquina"
-                className="w-full border px-4 py-2 rounded"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
             </div>
       
@@ -425,7 +425,7 @@ function Formulario() {
                 value={formData.tipo}
                 onChange={handleInputChange}
                 placeholder="Tipo de máquina"
-                className="w-full border px-4 py-2 rounded"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
             </div>
             </div>
@@ -442,7 +442,7 @@ function Formulario() {
               value={formData.combustible}
               onChange={handleInputChange}
               placeholder="Combustible"
-              className="w-full border px-4 py-2 rounded"
+              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
               </div>
               <div>
@@ -453,7 +453,7 @@ function Formulario() {
               value={formData.cantidad}
               onChange={handleInputChange}
               placeholder="Cantidad"
-              className="w-full border px-4 py-2 rounded"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
               </div>
               <div>
@@ -464,7 +464,7 @@ function Formulario() {
               value={formData.unidad}
               onChange={handleInputChange}
               placeholder="Unidad"
-              className="w-full border px-4 py-2 rounded"
+              className=" w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
               </div>
             </div>
@@ -481,7 +481,7 @@ function Formulario() {
                 value={formData.conductorNombre}
                 onChange={handleInputChange}
                 placeholder="Nombre"
-                className="w-full border px-4 py-2 rounded"
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
             </div>
       
@@ -494,7 +494,7 @@ function Formulario() {
                 value={formData.conductorApellido}
                 onChange={handleInputChange}
                 placeholder="Apellido"
-                className="w-full border px-4 py-2 rounded"
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
             </div>
             </div>
@@ -511,7 +511,7 @@ function Formulario() {
                 value={formData.proveedorNombres}
                 onChange={handleInputChange}
                 placeholder="Nombres"
-                className="w-full border px-4 py-2 rounded"
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
             </div>
             <div>
@@ -523,7 +523,7 @@ function Formulario() {
                 value={formData.proveedorApellidos}
                 onChange={handleInputChange}
                 placeholder="Apellidos"
-                className="w-full border px-4 py-2 rounded"
+                className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
             </div>
             <div>
@@ -534,7 +534,7 @@ function Formulario() {
                 value={formData.proveedorRuc}
                 onChange={handleInputChange}
                 placeholder="Numero de RUC"
-                className="w-full border px-4 py-2 rounded"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
             </div>
             </div>
@@ -546,7 +546,7 @@ function Formulario() {
               value={formData.observacion}
               onChange={handleInputChange}
               placeholder="Observación"
-              className="w-full border px-4 py-2 rounded"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
             ></textarea>
             </div>
       
