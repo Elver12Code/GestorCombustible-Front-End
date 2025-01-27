@@ -1,25 +1,28 @@
 // Formulario.jsx
 "use client";
 import React, { useState, useEffect } from "react";
-import UnitSelector from "../formulario/UnitSelector";
-import StockDisplay from "../formulario/StockDisplay";
-import NewUnitForm from "../formulario/NewUnitForm";
-import NewSolicitanteForm from "../formulario/newsolicitantform";
-import NewAutorizadoForm from "../formulario/newautorizadoform";
-import SolicitanteSelector from "../formulario/solicitanteselector";
-import AutorizadoSelector from "../formulario/autorizadoselector";
+import UnitSelector from "./UnitSelector";
+import StockDisplay from "./StockDisplay";
+import NewUnitForm from "./NewUnitForm";
+import NewSolicitanteForm from "./newsolicitantform";
+import NewAutorizadoForm from "./newautorizadoform";
+import SolicitanteSelector from "./solicitanteselector";
+import AutorizadoSelector from "./autorizadoselector";
 import ValePdfGenerator from "../pdf/valepdfgenerator";
+import RegistroExitoso from "./register"; 
+import { generatePDF } from "../pdf/valepdfgenerator";
 
 function Formulario() {
-  const [units, setUnits] = useState([]); // Lista de unidades operativas
-  const [selectedUnit, setSelectedUnit] = useState(null); // Unidad seleccionada
-  const [solicitantes, setSolicitantes] = useState([]); // Para manejar los solicitantes
-  const [selectedSolicitante, setSelectedSolicitante] = useState(""); // Estado para el solicitante seleccionado
-  const [autorizados, setAutorizados] = useState([]); // Para manejar los solicitantes
+  const [showRegistroExitoso, setShowRegistroExitoso] = useState(false); 
+  const [units, setUnits] = useState([]); 
+  const [selectedUnit, setSelectedUnit] = useState(null); 
+  const [solicitantes, setSolicitantes] = useState([]); 
+  const [selectedSolicitante, setSelectedSolicitante] = useState(""); 
+  const [autorizados, setAutorizados] = useState([]); 
   const [selectedAutorizado, setSelectedAutorizado] =useState("");
-  const [stock, setStock] = useState(""); // Stock de la unidad seleccionada
-  const [stockInicial, setStockInicial] = useState(""); // Stock inicial
-  const [formNumber, setFormNumber] = useState(1); // Número del formulario
+  const [stock, setStock] = useState(""); 
+  const [stockInicial, setStockInicial] = useState(""); 
+  const [formNumber, setFormNumber] = useState(1); 
   const [showNewUnitForm, setShowNewUnitForm] = useState(false);
   const [showNewSolicitanteForm, setShowNewSolicitanteForm] = useState(false);
   const [showNewAutorizadoForm, setShowNewAutorizadoForm] = useState(false);
@@ -208,8 +211,9 @@ function Formulario() {
   })
     .then((response) => {
       if (response.ok) {
-        alert("Consumo registrado con éxito.");
-        setFormNumber(formNumber + 1); // Solo se incrementa en el frontend
+        setShowRegistroExitoso(true);
+        setFormNumber(formNumber + 1); 
+        generatePDF(formData, stock, stockInicial, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado);
         setFormData({
           unidadOperativa: "",
           solicitante:"",
@@ -557,17 +561,17 @@ function Formulario() {
           Registrar Consumo
         </button>
       </form>
+
+      {/* Modal de Registro Exitoso */}
+      <RegistroExitoso
+        isOpen={showRegistroExitoso} // Pasa el estado de visibilidad
+        onClose={() => setShowRegistroExitoso(false)} // Función para cerrar el modal
+      />
+
+
       <div className="max-w-4xl mx-auto p-6 text-black bg-white rounded shadow-md">
       {/* ...resto del formulario */}
-      <ValePdfGenerator
-        formData={formData}
-        formNumber={formNumber}
-        selectedUnit={selectedUnit}
-        selectedSolicitante={selectedSolicitante}
-        selectedAutorizado={selectedAutorizado}
-        stock={stock}
-        stockInicial={stockInicial}
-      />
+      
       </div>
     </div>
   );

@@ -95,11 +95,11 @@ export default function ConsumoTable() {
   return (
     <div className="bg-white p-6 rounded-lg shadow text-black">
       <div className="bg-green-700 rounded-lg text-white text-center p-4 -mx-6 -mt-6 mb-6">
-        <h1 className="text-xl font-bold">INGRESAR CONSUMO</h1>
+        <h1 className="text-xl font-bold">REGISTRO DE CONSUMOS</h1>
       </div>
 
       <button
-        className="mb-6 bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 flex items-center gap-2"
+        className="mb-6 justify-items-center bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 flex items-center gap-2"
         onClick={() => router.push("/formulario")}
       >
         <Plus size={20} />
@@ -150,20 +150,20 @@ export default function ConsumoTable() {
 
         <button
           onClick={handleFilter}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700"
         >
           Filtrar
         </button>
         <div className="flex gap-4 mb-4">
           <button
             onClick={() => generarPDF(filteredData || tableData)}
-            className="bg-blue-500 text-white px-4 py-2 rounded"
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-700"
           >
             Exportar a PDF
           </button>
           <button
             onClick={() => generarExcel(filteredData || tableData)}
-            className="bg-green-500 text-white px-4 py-2 rounded"
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-700"
           >
             Exportar a Excel
           </button>
@@ -196,7 +196,7 @@ export default function ConsumoTable() {
                 <tr key={item.id}>
                   <td className="border px-4 py-2">{item.id}</td>
                   <td className="border px-4 py-2">{item.formNumber}</td>
-                  <td className="border px-4 py-2">{new Date(item.fecha).toLocaleDateString('es-ES')}</td>
+                  <td className="border px-4 py-2">{item.fecha}</td>
                   <td className="border px-4 py-2">
                     {item.solicitante ? item.solicitante.nombres : "No disponible"}
                   </td>

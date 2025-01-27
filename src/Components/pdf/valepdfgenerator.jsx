@@ -2,9 +2,8 @@ import React from "react";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 
-function ValePdfGenerator({ formData, stock, stockInicial, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado }) {
   
-  const generatePDF = () => {
+export const generatePDF = ( formData, stock, stockInicial, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado ) => {
     const imgData = '/Escudo_de_Macusani.png';    
     const doc = new jsPDF();
 
@@ -26,7 +25,7 @@ function ValePdfGenerator({ formData, stock, stockInicial, formNumber, selectedU
     // Título del PDF
     doc.setFontSize(18);
     doc.setTextColor(0, 0, 0);
-    doc.text("Val de Combustible", 80, 20);
+    doc.text("Vale de Combustible", 80, 20);
 
     // Información del formulario
     doc.setFontSize(12);
@@ -97,17 +96,17 @@ function ValePdfGenerator({ formData, stock, stockInicial, formNumber, selectedU
       startY: 180,
       head: [["OBSERVACIONES", "STOCK ACTUAL"]],
       body: [
-        [formData.observacion, `Stock Inicial: ${stockInicial}\nSaldo Anterior: ${stock}\nLo que se Atendió: ${formData.cantidad}\nSaldo Actual: ${stock - formData.cantidad}`],
+        [formData.observacion, `Cantidad Total: ${stockInicial}\nSaldo Anterior: ${stock}\nAtendido: ${formData.cantidad}\nSaldo Actual: ${stock - formData.cantidad}`],
       ],
       columnStyles: {
         0: { cellWidth: 90 },
-        1: { cellWidth: 90 },
+        1: { cellWidth: 90,halign: 'center' },
       },
       headStyles: {
         fillColor: [9, 115, 0],
+        halign: 'center',
       },
       styles: {
-        halign: 'left',
         valign: 'top',
       },
     });
@@ -145,7 +144,7 @@ function ValePdfGenerator({ formData, stock, stockInicial, formNumber, selectedU
 
     doc.setFontSize(18);
     doc.setTextColor(0, 0, 0);
-    doc.text("Val de Combustible", 80, 20);
+    doc.text("Vale de Combustible", 80, 20);
 
     doc.setFontSize(12);
     doc.setFont("times");
@@ -216,18 +215,20 @@ function ValePdfGenerator({ formData, stock, stockInicial, formNumber, selectedU
       startY: 180,
       head: [["OBSERVACIONES", "STOCK ACTUAL"]],
       body: [
-        [formData.observacion, `Stock Inicial: ${stockInicial}\nSaldo Anterior: ${stock}\nLo que se Atendió: ${formData.cantidad}\nSaldo Actual: ${stock - formData.cantidad}`],
+        [formData.observacion, `Cantidad Total: ${stockInicial}\nSaldo Anterior: ${stock}\nAtendido: ${formData.cantidad}\nSaldo Actual: ${stock - formData.cantidad}`],
       ],
       columnStyles: {
         0: { cellWidth: 90 },
-        1: { cellWidth: 90 },
+        1: { cellWidth: 90, halign: 'center'  },
       },
       headStyles: {
         fillColor: [9, 115, 0],
+        halign: 'center', // Centrado del encabezado de la columna
+
       },
       styles: {
-        halign: 'left',
         valign: 'top',
+
       },
     });
 
@@ -246,20 +247,4 @@ function ValePdfGenerator({ formData, stock, stockInicial, formNumber, selectedU
 
     // Guardar el PDF
     doc.save(`Vale_${formData.ordenConsumo}.pdf`);
-  };
-
-  return (
-    <div className="mt-4">
-      <button
-        onClick={generatePDF}
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded shadow hover:bg-blue-700"
-      >
-        Generar PDF
-      </button>
-    </div>
-  );
-}
-
-export default ValePdfGenerator;
-
-
+};
