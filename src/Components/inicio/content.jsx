@@ -40,9 +40,9 @@ export default function ConsumoTable() {
 
       // Filtrar por término de búsqueda
       const searchMatch = searchTerm
-        ? item.unidadOperativa?.name
-            ?.toLowerCase()
-            .includes(searchTerm.toLowerCase())
+        ? item.unidadOperativa?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            (item.meta?.toString().toLowerCase().includes(searchTerm.toLowerCase()))
+
         : true;
 
       return isWithinDateRange && searchMatch;
@@ -211,7 +211,7 @@ export default function ConsumoTable() {
                   </td>
                   <td className="border px-4 py-2">{item.combustible}</td>
                   <td className="border px-4 py-2">{item.unidad}</td>
-                  <td className="border px-4 py-2">{item.cantidad}</td>
+                  <td className="border px-4 py-2">{(item.cantidad).toFixed(2)}</td>
                   <td className="border px-4 py-2">{item.meta}</td>
                   <td className="border px-4 py-2">
                     {item.unidadOperativa ? item.unidadOperativa.name : "No Disponible"}

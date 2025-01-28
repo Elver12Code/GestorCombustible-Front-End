@@ -38,7 +38,7 @@ export const generatePDF = ( formData, stock, stockInicial, formNumber, selected
       startY: 45,
       head: [[{ content: 'Descripcion del Consumo', colSpan: 2, styles: { halign: 'center' } }]],
       body: [
-        ['Señores:', formData.proveedorRuc, ` ${formData.proveedorNombres} ${formData.proveedorApellidos}`],
+        ['Señores:', `${formData.proveedorRuc} - ${formData.proveedorNombres} ${formData.proveedorApellidos}`],
         ['Solicito Entregar A:', ` ${selectedSolicitante.nombres} ${selectedSolicitante.apellidos}`],
         ['Autorizado Por:', ` ${selectedAutorizado.nombres} ${selectedAutorizado.apellidos}`],
         ['Vehiculo:', formData.maquina],
@@ -96,7 +96,7 @@ export const generatePDF = ( formData, stock, stockInicial, formNumber, selected
       startY: 180,
       head: [["OBSERVACIONES", "STOCK ACTUAL"]],
       body: [
-        [formData.observacion, `Cantidad Total: ${stockInicial}\nSaldo Anterior: ${stock}\nAtendido: ${formData.cantidad}\nSaldo Actual: ${stock - formData.cantidad}`],
+        [formData.observacion, `Cantidad Total: ${(stockInicial).toFixed(2)}\nSaldo Anterior: ${(stock).toFixed(2)}\nAtendido: ${formData.cantidad}\nSaldo Actual: ${(stock - formData.cantidad).toFixed(2)}`],
       ],
       columnStyles: {
         0: { cellWidth: 90 },
@@ -157,7 +157,7 @@ export const generatePDF = ( formData, stock, stockInicial, formNumber, selected
       startY: 45,
       head: [[{ content: 'Descripcion del Consumo', colSpan: 2, styles: { halign: 'center' } }]],
       body: [
-        ['Señores:', ` ${formData.proveedorNombres} ${formData.proveedorApellidos}`],
+        ['Señores:', `${formData.proveedorRuc} - ${formData.proveedorNombres} ${formData.proveedorApellidos}`],
         ['Solicito Entregar A:', ` ${selectedSolicitante.nombres} ${selectedSolicitante.apellidos}`],
         ['Autorizado Por:', ` ${selectedAutorizado.nombres} ${selectedAutorizado.apellidos}`],
         ['Vehiculo:', formData.maquina],
@@ -215,7 +215,7 @@ export const generatePDF = ( formData, stock, stockInicial, formNumber, selected
       startY: 180,
       head: [["OBSERVACIONES", "STOCK ACTUAL"]],
       body: [
-        [formData.observacion, `Cantidad Total: ${stockInicial}\nSaldo Anterior: ${stock}\nAtendido: ${formData.cantidad}\nSaldo Actual: ${stock - formData.cantidad}`],
+        [formData.observacion, `Cantidad Total: ${(stockInicial).toFixed(2)}\nSaldo Anterior: ${(stock).toFixed(2)}\nAtendido: ${formData.cantidad}\nSaldo Actual: ${(stock - formData.cantidad).toFixed(2)}`],
       ],
       columnStyles: {
         0: { cellWidth: 90 },

@@ -1,32 +1,38 @@
 import jsPDF from "jspdf";
 import "jspdf-autotable";
-import { BiFontSize } from "react-icons/bi";
 
 const generarPDF = (datos) => {
-
-  // Preprocesamos los datos para asegurarnos de que 'maquina' sea un string y no un objeto
+  // Preprocesar los datos
   const datosProcesados = datos.map((item) => ({
     ...item,
+    fecha: new Date(item.fecha).toLocaleDateString("es-ES"), // Formato de fecha en español
+    maquina: item.maquina ? item.maquina.nombre : item.maquina, // Si 'maquina' es un objeto, accedemos a 'nombre'
+    solicitante: item.solicitante
+      ? `${item.solicitante.nombres} ${item.solicitante.apellidos}`
+      : item.solicitante, // Nombre completo del solicitante
+    autorizado: item.autorizado
+      ? `${item.autorizado.nombres} ${item.autorizado.apellidos}`
+      : item.autorizado, // Nombre completo del autorizado
+    cantidad: item.cantidad ? parseFloat(item.cantidad).toFixed(2) : "0.00", // Formato con dos decimales
+  }));
 
-    fecha: new Date(item.fecha).toLocaleDateString('es-ES'),  // Formato de fecha en español (día/mes/año)
-    maquina: item.maquina ? item.maquina.nombre : item.maquina,  // Si 'maquina' es un objeto, accedemos a 'nombre'
-    solicitante: item.solicitante ? `${item.solicitante.nombres} ${item.solicitante.apellidos}` : item.solicitante,  // Si 'maquina' es un objeto, accedemos a 'nombre'
-    autorizado: item.autorizado ? `${item.autorizado.nombres} ${item.autorizado.apellidos}` : item.autorizado,  // Si 'maquina' es un objeto, accedemos a 'nombre'
-  }));  
-  
-  const totalCantidad = datos.reduce((total, item) => total + (item.cantidad || 0), 0);
+  const totalCantidad = datos.reduce(
+    (total, item) => total + (parseFloat(item.cantidad) || 0),
+    0
+  );
+
   // Crear una fila para los totales
   const filaTotales = {
     id: "",
     formNumber: "",
     fecha: "",
-    solicitante: "Total", // Texto que indica que esta es la fila de totales
+    solicitante: "Total",
     autorizado: "",
     maquina: "",
     placa: "",
     combustible: "",
     unidad: "",
-    cantidad: totalCantidad.toFixed(2), // Total con dos decimales
+    cantidad: totalCantidad.toFixed(2),
     meta: "",
     unidadOperativaId: "",
   };
@@ -34,24 +40,61 @@ const generarPDF = (datos) => {
   // Agregar la fila de totales al final
   datosProcesados.push(filaTotales);
 
-  const doc = new jsPDF("landscape", "mm", "a4");  // Crea un documento en orientación horizontal (landscape)
-  
-  const imgData = '/Escudo_de_Macusani.png';    
-  doc.addImage(imgData, 'PNG', 20, 3, 25, 25);
+  // Verificar si hay múltiples metas u oficinas
+  const metasUnicas = [...new Set(datos.map((item) => item.meta || "Sin meta"))];
+  const oficinasUnicas = [...new Set(datos.map((item) => item.unidadOperativaId || "Sin oficina"))];
+
+  // Determinar si mostrar la meta o no
+  const mostrarMeta =
+    metasUnicas.length === 1 ? metasUnicas[0] : null; // Obtener la única meta si solo hay una
+
+  // Generar la tabla de resumen
+  const resumen = [];
+  const agrupados = {};
+
+  datos.forEach((item) => {
+    const tipoCombustible = item.combustible || "Desconocido";
+    const cantidad = parseFloat(item.cantidad) || 0;
+
+    if (!agrupados[tipoCombustible]) {
+      agrupados[tipoCombustible] = {
+        descripcion: tipoCombustible,
+        unidad: "Galón",
+        total: 0,
+      };
+    }
+
+    agrupados[tipoCombustible].total += cantidad;
+  });
+
+  Object.values(agrupados).forEach((group) => {
+    resumen.push({
+      descripcion: group.descripcion,
+      unidad: group.unidad,
+      total: group.total.toFixed(2), // Formato con dos decimales
+    });
+  });
+
+  // Crear documento PDF
+  const doc = new jsPDF("landscape", "mm", "a4");
+
+  const imgData = "/Escudo_de_Macusani.png";
+  doc.addImage(imgData, "PNG", 20, 3, 25, 25);
+
   // Título del reporte
-  
   doc.setFont("times-roman", "italic", "bold");
   doc.setFontSize(18);
   doc.setTextColor(0, 0, 0);
   doc.text("Registro de Vales de Combustible", 110, 20);
 
-  
-    doc.setFontSize(12);
+  // Mostrar la meta si corresponde
+  if (mostrarMeta && mostrarMeta !== "Sin meta") {
+    doc.setFontSize(8);
     doc.setTextColor(50, 50, 50);
-    doc.text(`GENERADOS: DESDE ${startDate} HASTA ${endDate}`, 110, 25);
-  
+    doc.text(`META: ${mostrarMeta}`, 110, 25);
+  }
 
-  // Configurar las columnas de la tabla
+  // Configurar columnas de la tabla principal
   const columnas = [
     { header: "ID", dataKey: "id" },
     { header: "Num", dataKey: "formNumber" },
@@ -65,25 +108,50 @@ const generarPDF = (datos) => {
     { header: "Cant", dataKey: "cantidad" },
     { header: "Meta", dataKey: "meta" },
     { header: "Unidad/op", dataKey: "unidadOperativaId" },
-    
-    // Agrega más columnas si es necesario
   ];
 
-  // Generar la tabla
+  // Generar la tabla principal
   doc.autoTable({
     columns: columnas,
     body: datosProcesados,
-    startY: 30, // Dónde empieza la tabla
+    startY: mostrarMeta && mostrarMeta !== "Sin meta" ? 30 : 25, // Ajustar inicio según si se muestra meta
     headStyles: {
       fillColor: [9, 115, 0],
       fontSize: 8,
     },
     styles: {
       fontSize: 8,
-    }
+    },
+  });
+
+  // Configurar columnas de la tabla resumen
+  const columnasResumen = [
+    { header: "Descripción", dataKey: "descripcion" },
+    { header: "Unidad", dataKey: "unidad" },
+    { header: "Total", dataKey: "total" },
+  ];
+
+  // Generar la tabla de resumen debajo de la principal
+  doc.autoTable({
+    columns: columnasResumen,
+    body: resumen,
+    startY: doc.previousAutoTable.finalY + 10, // Empieza después de la tabla principal
+    headStyles: {
+      fillColor: [9, 115, 0],
+      fontSize: 10,
+    },
+    styles: {
+      fontSize: 10,
+    },
+    columnStyles: {
+      descripcion: { cellWidth: 50 }, // Ancho personalizado para la columna "Descripción"
+      unidad: { cellWidth: 20 }, // Ancho personalizado para la columna "Unidad"
+      total: { cellWidth: 20 }, // Ancho personalizado para la columna "Total"
+    },
   });
 
   // Guardar el PDF
   doc.save("reporte_consumos.pdf");
 };
+
 export default generarPDF;

@@ -313,9 +313,9 @@ function Formulario() {
             selectedUnit={formData.unidadOperativa}
             onUnitChange={handleUnitChange}
           />
-          <StockDisplay stock={stock} label="Stock" />
+          <StockDisplay stock={stock ? stock.toFixed(2) : ""} label="Stock" />
 
-          <StockDisplay stock={stockInicial} label="Stock Inicial"  /> 
+          <StockDisplay stock={stockInicial ? stockInicial.toFixed(2) : ""} label="Stock Inicial"  /> 
         </div> 
 
         <div >
