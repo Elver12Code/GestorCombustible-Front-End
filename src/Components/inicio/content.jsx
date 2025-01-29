@@ -26,8 +26,13 @@ export default function ConsumoTable() {
       .then((data) => {
         console.log("Datos recibidos:", data);  // Ver los datos aquí
 
-        setData(data);
-        setFilteredData(data);
+        /*setData(data);
+        setFilteredData(data);*/
+        
+          // Ordenamos los registros por fecha (más reciente primero)
+        const sortedData = data.sort((a, b) => new Date(b.formNumber) - new Date(a.formNumber));
+        setData(sortedData);
+        setFilteredData(sortedData);
       })
       .catch((error) => console.error("Error al cargar los datos:", error));
   }, []);
