@@ -3,10 +3,14 @@ import "jspdf-autotable";
 
 const generarPDF = (datos) => {
   // Preprocesar los datos
-  const datosProcesados = datos.map((item) => ({
+  const datosProcesados = datos.map((item, index) => ({
     ...item,
+    item: index + 1, // Agregar la columna "Item" con un número único para cada registro
     fecha: new Date(item.fecha).toLocaleDateString("es-ES"), // Formato de fecha en español
     maquina: item.maquina ? item.maquina.nombre : item.maquina, // Si 'maquina' es un objeto, accedemos a 'nombre'
+    unidadOperativa: item.unidadOperativa
+     ? `${item.unidadOperativa.name}` 
+     : item.unidadOperativa,
     solicitante: item.solicitante
       ? `${item.solicitante.nombres} ${item.solicitante.apellidos}`
       : item.solicitante, // Nombre completo del solicitante
@@ -39,6 +43,8 @@ const generarPDF = (datos) => {
 
   // Agregar la fila de totales al final
   datosProcesados.push(filaTotales);
+
+  
 
   // Verificar si hay múltiples metas u oficinas
   const metasUnicas = [...new Set(datos.map((item) => item.meta || "Sin meta"))];
@@ -96,7 +102,8 @@ const generarPDF = (datos) => {
 
   // Configurar columnas de la tabla principal
   const columnas = [
-    { header: "ID", dataKey: "id" },
+    { header: "Item", dataKey: "item" },  // Nueva columna "Item"
+   // { header: "ID", dataKey: "id" },
     { header: "Num", dataKey: "formNumber" },
     { header: "Fecha", dataKey: "fecha" },
     { header: "Solicitante", dataKey: "solicitante" },

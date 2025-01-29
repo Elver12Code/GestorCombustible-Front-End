@@ -17,16 +17,22 @@ function NewAutorizadoForm({ onSubmitSuccess }) {
     }));
   };
 
-  // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    // Validación de campos requeridos
+    if (!newAutorizado.nombres || !newAutorizado.apellidos) {
+      alert("Por favor, complete todos los campos antes de agregar un nuevo autorizante.");
+      return; // Detiene la ejecución si los campos no están completos
+    }
+  
     try {
       const response = await axios.post("http://localhost:3000/api/autorizados", newAutorizado);
       onSubmitSuccess(response.data); // Llama a la función de éxito pasada como prop
-      // Puedes limpiar el formulario después de éxito
+      // Limpiar el formulario después de éxito
       setNewAutorizado({ nombres: "", apellidos: "" });
     } catch (error) {
-      console.error("Error al agregar solicitante:", error);
+      console.error("Error al agregar autorizado:", error);
     }
   };
 

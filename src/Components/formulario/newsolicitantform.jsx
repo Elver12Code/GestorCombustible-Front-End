@@ -20,15 +20,23 @@ function NewSolicitanteForm({ onSubmitSuccess }) {
   // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    // Validación de campos requeridos
+    if (!newSolicitante.nombres || !newSolicitante.apellidos) {
+      alert("Por favor, complete todos los campos antes de agregar un nuevo solicitante.");
+      return; // Detiene la ejecución si los campos no están completos
+    }
+  
     try {
       const response = await axios.post("http://localhost:3000/api/solicitantes", newSolicitante);
       onSubmitSuccess(response.data); // Llama a la función de éxito pasada como prop
-      // Puedes limpiar el formulario después de éxito
+      // Limpiar el formulario después de éxito
       setNewSolicitante({ nombres: "", apellidos: "" });
     } catch (error) {
       console.error("Error al agregar solicitante:", error);
     }
   };
+  
 
   return (
     <div className="flex justify-between grid-cols-2 gap-4">

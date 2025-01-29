@@ -150,7 +150,7 @@ export const generatePDF = (selectedDate,formData, stock, stockInicial, formNumb
     doc.setFont("times");
     doc.text(`Orden Consumo: ${formData.ordenConsumo}`, 15, 40);
     doc.text(`N°: ${formNumber || "No Disponible"}`, 140, 40);
-    doc.text(`Fecha: ${formData.fecha}`, 160, 40);
+    doc.text(`Fecha: ${selectedDate}`, 160, 40);
 
     // Duplicar tablas
     doc.autoTable({
