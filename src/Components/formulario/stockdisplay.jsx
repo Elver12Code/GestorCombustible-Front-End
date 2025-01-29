@@ -1,7 +1,6 @@
 import React from "react";
 
 function StockDisplay({ stock, label = "stock" }) {
-  console.log("Props recibidos:", { stock, label });
 
   return (
     <div>

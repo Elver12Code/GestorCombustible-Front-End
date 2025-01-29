@@ -12,6 +12,7 @@ import ValePdfGenerator from "../pdf/valepdfgenerator";
 import RegistroExitoso from "./register"; 
 import { generatePDF } from "../pdf/valepdfgenerator";
 
+
 function Formulario() {
   const [showRegistroExitoso, setShowRegistroExitoso] = useState(false); 
   const [units, setUnits] = useState([]); 
@@ -23,6 +24,7 @@ function Formulario() {
   const [stock, setStock] = useState(""); 
   const [stockInicial, setStockInicial] = useState(""); 
   const [formNumber, setFormNumber] = useState(1); 
+  const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]); // estado para la fecha seleccionada
   const [showNewUnitForm, setShowNewUnitForm] = useState(false);
   const [showNewSolicitanteForm, setShowNewSolicitanteForm] = useState(false);
   const [showNewAutorizadoForm, setShowNewAutorizadoForm] = useState(false);
@@ -47,6 +49,7 @@ function Formulario() {
     tipo: "",
     forNumer: "",
     maquina:"",  
+    fecha:"",
   });
 
   const [newUnit, setNewUnit] = useState({
@@ -54,7 +57,6 @@ function Formulario() {
     stock: "",
     stockInicial: ""
   });
-
   // Obtener las unidades operativas desde el backend
   useEffect(() => {
     fetch("http://localhost:3000/api/formNumber")
@@ -119,8 +121,11 @@ function Formulario() {
     setSelectedAutorizado(autorizado);
     setFormData({ ...formData, autorizado: autorizadoId });
   };
+  const handleDateChange = (event) => {
+    console.log("Fecha seleccionada:", event.target.value); // Asegúrate de que muestra el valor correcto
+    setFormData({ ...formData, fecha: event.target.value }); // Actualiza el estado de la fecha en formData
+  };
   
-
   // Maneja el cambio en los campos del formulario
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -153,6 +158,9 @@ function Formulario() {
   const handleSubmit = (event) => {
   event.preventDefault();
 
+  // Asegúrate de que la fecha esté en formato ISO-8601 con hora
+  const fechaConHora = formData.fecha ? new Date(formData.fecha).toISOString() : new Date().toISOString();
+
   if (!selectedUnit) {
     alert("Por favor, seleccione una unidad operativa.");
     return;
@@ -177,7 +185,6 @@ function Formulario() {
     alert("Por favor, ingrese todos los campos.");
     return;
   }
-
   // Datos a enviar al backend (sin formNumber ni fecha, ya que se generan en el backend)
   const dataToSend = {
     unidadOperativaId: selectedUnit.id,
@@ -199,6 +206,7 @@ function Formulario() {
     maquina: formData.maquina, // Máquina
     tipo: formData.tipo, // Tipo de máquina
     placa: formData.placa,
+    fecha: fechaConHora,
   };
 
   console.log("Datos enviados al backend:", dataToSend); // Verifica los datos
@@ -241,7 +249,8 @@ function Formulario() {
       }
     })
     .catch((error) => console.error("Error al registrar consumo:", error));
-};
+    
+  };
 
   return (
     <div className="max-w-4xl mx-auto p-6 text-black bg-white rounded shadow-md">
@@ -254,8 +263,15 @@ function Formulario() {
             <strong>N°:</strong> {formNumber}
           </span>
           <span>
-            <strong>FECHA:</strong> {new Date().toLocaleDateString()}
-          </span>
+          <strong>FECHA:</strong>
+          {/* Aquí cambiamos el texto por un campo de fecha */}
+          <input 
+            type="date" 
+            value={formData.fecha} 
+            onChange={handleDateChange}  // Usa handleDateChange aquí
+            className="border border-gray-300 px-2 py-1 rounded-md" 
+          />
+        </span>
         </div>
 
         {/* Agregar Nueva Unidad */}
@@ -322,14 +338,11 @@ function Formulario() {
         <h1 className="flex items-center">
           <strong>Solicitante</strong>
         </h1>
-          {/* Selector de Solicitante */}
         <SolicitanteSelector
           solicitantes={solicitantes}
           selectedSolicitante={formData.solicitante}
           onSolicitanteChange={handleSolicitanteChange}
         />
-
-        {/* Selector de Autorizado */}
         <h1 className="flex items-center">
           <strong>Autorizado</strong>
         </h1>
@@ -339,14 +352,11 @@ function Formulario() {
           onAutorizadoChange={handleAutorizadoChange}
         />
         </div>
-
         <div>
           <h1 className="flex items-center">
             <strong>DATOS</strong>
             </h1>
-          <div className="grid grid-cols-3 gap-4">
-            
-            {/* Campos adicionales */}
+          <div className="grid grid-cols-3 gap-4">            
             <div>
             <label className="text-[13px] text-slate-400">Orden Consumo</label>
 
@@ -386,11 +396,8 @@ function Formulario() {
             <strong>CARACTERISTICAS DEL VEHICULO</strong>
             </h1>
             <div className="grid grid-cols-3 gap-4">
-            
-            {/* Campo para la máquina */}
             <div>
             <label className="text-[13px] text-slate-400">Maquina/Vehiculo</label>
-
               <input
                 type="text"
                 id="maquina"
@@ -401,7 +408,6 @@ function Formulario() {
                 className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
             </div>
-            {/* Campo para la placa */}
             <div>
             <label className="text-[13px] text-slate-400">Placa</label>
               <input
@@ -414,8 +420,6 @@ function Formulario() {
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500"
               />
             </div>
-      
-            {/* Campo para el tipo de máquina */}
             <div>
             <label className="text-[13px] text-slate-400">Tipo</label>
               <input
@@ -551,10 +555,7 @@ function Formulario() {
             </div>
       
         </div>
-        
-
-        {/* Enviar el formulario de consumo */}
-        <button
+                <button
           type="submit"
           className="mt-4 w-full bg-green-600 text-white py-2 px-4 rounded shadow hover:bg-green-700"
         >
@@ -562,13 +563,10 @@ function Formulario() {
         </button>
       </form>
 
-      {/* Modal de Registro Exitoso */}
       <RegistroExitoso
         isOpen={showRegistroExitoso} // Pasa el estado de visibilidad
         onClose={() => setShowRegistroExitoso(false)} // Función para cerrar el modal
       />
-
-
       <div className="max-w-4xl mx-auto p-6 text-black bg-white rounded shadow-md">
       {/* ...resto del formulario */}
       

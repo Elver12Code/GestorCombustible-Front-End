@@ -3,7 +3,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 
   
-export const generatePDF = ( formData, stock, stockInicial, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado ) => {
+export const generatePDF = (formData, stock, stockInicial, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado ) => {
     const imgData = '/Escudo_de_Macusani.png';    
     const doc = new jsPDF();
 
@@ -20,7 +20,7 @@ export const generatePDF = ( formData, stock, stockInicial, formNumber, selected
     doc.setFont("times-roman", "italic");
     doc.setFontSize(12);
     doc.setTextColor(108, 117, 125);
-    doc.text('"Año de la recuperación y consolidación de la economía peruana"', 50, 8);
+    doc.text('"Año de la Recuperación y Consolidación de la Economía Peruana"', 50, 8);
 
     // Título del PDF
     doc.setFontSize(18);
@@ -32,7 +32,7 @@ export const generatePDF = ( formData, stock, stockInicial, formNumber, selected
     doc.setFont("times");
     doc.text(`Orden Consumo: ${formData.ordenConsumo}`, 15, 40);
     doc.text(`N°: ${formNumber || "No Disponible"}`, 140, 40);
-    doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 160, 40);
+    doc.text(`Fecha: ${formData.fecha}`, 160, 40);
 
     doc.autoTable({
       startY: 45,
@@ -150,7 +150,7 @@ export const generatePDF = ( formData, stock, stockInicial, formNumber, selected
     doc.setFont("times");
     doc.text(`Orden Consumo: ${formData.ordenConsumo}`, 15, 40);
     doc.text(`N°: ${formNumber || "No Disponible"}`, 140, 40);
-    doc.text(`Fecha: ${new Date().toLocaleDateString()}`, 160, 40);
+    doc.text(`Fecha: ${formData.fecha}`, 160, 40);
 
     // Duplicar tablas
     doc.autoTable({
