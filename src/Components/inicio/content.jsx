@@ -28,7 +28,7 @@ export default function ConsumoTable() {
 
         /*setData(data);
         setFilteredData(data);*/
-        
+
           // Ordenamos los registros por fecha (más reciente primero)
         const sortedData = data.sort((a, b) => new Date(b.formNumber) - new Date(a.formNumber));
         setData(sortedData);
@@ -262,12 +262,7 @@ export default function ConsumoTable() {
                     >
                       <Trash size={16} />
                     </button>
-                    <button
-                      onClick={() => handleShowPdf(formData, stock, stockInicial, formNumber, selectedUnit, item.solicitante, item.autorizado)}
-                      className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 ml-2"
-                    >
-                      Ver PDF
-                    </button>
+                    
 
                   </td>
                 </tr>
