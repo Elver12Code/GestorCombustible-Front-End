@@ -3,7 +3,7 @@ import jsPDF from "jspdf";
 import "jspdf-autotable";
 
   
-export const generatePDF = (formData, stock, stockInicial, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado ) => {
+export const generatePDF = (selectedDate,formData, stock, stockInicial, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado ) => {
     const imgData = '/Escudo_de_Macusani.png';    
     const doc = new jsPDF();
 
@@ -32,7 +32,7 @@ export const generatePDF = (formData, stock, stockInicial, formNumber, selectedU
     doc.setFont("times");
     doc.text(`Orden Consumo: ${formData.ordenConsumo}`, 15, 40);
     doc.text(`N°: ${formNumber || "No Disponible"}`, 140, 40);
-    doc.text(`Fecha: ${formData.fecha}`, 160, 40);
+    doc.text(`Fecha: ${selectedDate}`, 160, 40);
 
     doc.autoTable({
       startY: 45,

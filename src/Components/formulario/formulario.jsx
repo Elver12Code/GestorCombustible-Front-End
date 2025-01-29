@@ -49,7 +49,7 @@ function Formulario() {
     tipo: "",
     forNumer: "",
     maquina:"",  
-    fecha:"",
+    fecha:","
   });
 
   const [newUnit, setNewUnit] = useState({
@@ -122,8 +122,9 @@ function Formulario() {
     setFormData({ ...formData, autorizado: autorizadoId });
   };
   const handleDateChange = (event) => {
-    console.log("Fecha seleccionada:", event.target.value); // Asegúrate de que muestra el valor correcto
-    setFormData({ ...formData, fecha: event.target.value }); // Actualiza el estado de la fecha en formData
+    console.log("Fecha seleccionada:", selectedDate); // Verifica si la fecha es la esperada
+
+    setSelectedDate(event.target.value); // actualizar la fecha seleccionada
   };
   
   // Maneja el cambio en los campos del formulario
@@ -157,9 +158,6 @@ function Formulario() {
   };
   const handleSubmit = (event) => {
   event.preventDefault();
-
-  // Asegúrate de que la fecha esté en formato ISO-8601 con hora
-  const fechaConHora = formData.fecha ? new Date(formData.fecha).toISOString() : new Date().toISOString();
 
   if (!selectedUnit) {
     alert("Por favor, seleccione una unidad operativa.");
@@ -206,7 +204,7 @@ function Formulario() {
     maquina: formData.maquina, // Máquina
     tipo: formData.tipo, // Tipo de máquina
     placa: formData.placa,
-    fecha: fechaConHora,
+    fecha: selectedDate,
   };
 
   console.log("Datos enviados al backend:", dataToSend); // Verifica los datos
@@ -221,7 +219,7 @@ function Formulario() {
       if (response.ok) {
         setShowRegistroExitoso(true);
         setFormNumber(formNumber + 1); 
-        generatePDF(formData, stock, stockInicial, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado);
+        generatePDF(selectedDate, formData, stock, stockInicial, formNumber, selectedUnit, selectedSolicitante, selectedAutorizado);
         setFormData({
           unidadOperativa: "",
           solicitante:"",
@@ -267,8 +265,8 @@ function Formulario() {
           {/* Aquí cambiamos el texto por un campo de fecha */}
           <input 
             type="date" 
-            value={formData.fecha} 
-            onChange={handleDateChange}  // Usa handleDateChange aquí
+            value={selectedDate} 
+            onChange={handleDateChange} 
             className="border border-gray-300 px-2 py-1 rounded-md" 
           />
         </span>
