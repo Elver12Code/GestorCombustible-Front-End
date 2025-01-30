@@ -73,10 +73,9 @@ export default function LoginForm() {
       </div>
       {/* Contenedor de la imagen */}
       <div className="w-full md:w-2/4 relative" style={{width: '100%'}}>
-        <Image
+        <img
           src="/carabaya.jpeg"
           alt="Universidad Nacional del Altiplano"
-          fill
           style={{ objectFit: 'cover' }}
         />
       </div>
