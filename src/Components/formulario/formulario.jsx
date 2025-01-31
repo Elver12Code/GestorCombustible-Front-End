@@ -91,12 +91,12 @@ function Formulario() {
   const handleUnitChange = (event) => {
     const unitId = Number(event.target.value);
     const unit = units.find((u) => u.id === unitId);
-    console.log("Unidad seleccionada:", unit);  // Verifica la unidad seleccionada
+    console.log("Unidad seleccionada:", unit);  
 
     setSelectedUnit(unit);
     setStock(unit?.stock || "");
     setStockInicial(unit?.stockInicial || "");
-    console.log("Stock actualizado:", unit?.stock);  // Verifica si el stock se actualiza
+    console.log("Stock actualizado:", unit?.stock);  
     setFormData({ ...formData, unidadOperativa: unitId });
   };
   
@@ -122,9 +122,9 @@ function Formulario() {
     setFormData({ ...formData, autorizado: autorizadoId });
   };
   const handleDateChange = (event) => {
-    console.log("Fecha seleccionada:", selectedDate); // Verifica si la fecha es la esperada
+    console.log("Fecha seleccionada:", selectedDate); 
 
-    setSelectedDate(event.target.value); // actualizar la fecha seleccionada
+    setSelectedDate(event.target.value); 
   };
   
   // Maneja el cambio en los campos del formulario

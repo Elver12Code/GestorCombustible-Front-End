@@ -75,7 +75,7 @@ export default function LoginForm() {
       <div className="w-full md:w-2/4 relative" style={{width: '100%'}}>
         <img
           src="/carabaya.jpeg"
-          alt="Universidad Nacional del Altiplano"
+          alt="Municipalidad Provincial de Carabaya"
           style={{ objectFit: 'cover' }}
         />
       </div>
