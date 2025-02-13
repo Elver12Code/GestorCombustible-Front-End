@@ -225,6 +225,7 @@ export default function ConsumoTable() {
               <th className="border px-4 py-2 text-left">Unidad</th>
               <th className="border px-4 py-2 text-left">Cant</th>
               <th className="border px-4 py-2 text-left">Meta</th>
+              <th className="border px-4 py-2 text-left">Observacion</th>
               <th className="border px-4 py-2 text-left">Unidad/Op</th>
               <th className="border px-4 py-2 text-center">Acciones</th>
             </tr>
@@ -252,6 +253,7 @@ export default function ConsumoTable() {
                   <td className="border px-4 py-2">{item.unidad}</td>
                   <td className="border px-4 py-2">{(item.cantidad).toFixed(2)}</td>
                   <td className="border px-4 py-2">{item.meta}</td>
+                  <td className="border px-4 py-2">{item.observacion}</td>
                   <td className="border px-4 py-2">
                     {item.unidadOperativa ? item.unidadOperativa.name : "No Disponible"}
                   </td>
