@@ -8,6 +8,7 @@ const generarPDF = (datos) => {
     item: index + 1, // Agregar la columna "Item" con un número único para cada registro
     fecha: new Date(item.fecha).toLocaleDateString("es-ES"), // Formato de fecha en español
     maquina: item.maquina ? item.maquina.nombre : item.maquina, // Si 'maquina' es un objeto, accedemos a 'nombre'
+    conductor: item.conductor ? item.conductor.nombres : item.conductor,
     unidadOperativa: item.unidadOperativa
      ? `${item.unidadOperativa.name}` 
      : item.unidadOperativa,
@@ -31,7 +32,7 @@ const generarPDF = (datos) => {
     formNumber: "",
     fecha: "",
     solicitante: "Total",
-    autorizado: "",
+    conductor: "",
     maquina: "",
     placa: "",
     combustible: "",
@@ -107,7 +108,7 @@ const generarPDF = (datos) => {
     { header: "Num", dataKey: "formNumber" },
     { header: "Fecha", dataKey: "fecha" },
     { header: "Solicitante", dataKey: "solicitante" },
-    { header: "Conductor", dataKey: "autorizado" },
+    { header: "Conductor", dataKey: "conductor" },
     { header: "Vehiculo", dataKey: "maquina" },
     { header: "Placa", dataKey: "placa" },
     { header: "Combustible", dataKey: "combustible" },
