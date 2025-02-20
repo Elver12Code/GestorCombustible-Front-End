@@ -6,7 +6,8 @@ const generarPDF = (datos) => {
   const datosProcesados = datos.map((item, index) => ({
     ...item,
     item: index + 1, // Agregar la columna "Item" con un número único para cada registro
-    fecha: new Date(item.fecha).toLocaleDateString("es-ES"), // Formato de fecha en español
+    fecha: new Date(new Date(item.fecha).getTime() + new Date().getTimezoneOffset() * 60000)
+    .toLocaleDateString("es-ES"),
     maquina: item.maquina ? item.maquina.nombre  : item.maquina, // Si 'maquina' es un objeto, accedemos a 'nombre'
     conductor: item.conductor ? `${item.conductor.nombres} ${item.conductor.apellidos}` : item.conductor,
     placa: item.maquina ? item.maquina.placa : item.maquina,
