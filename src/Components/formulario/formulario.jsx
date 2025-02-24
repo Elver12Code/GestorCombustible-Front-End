@@ -242,7 +242,6 @@ function Formulario() {
           placa: "", 
         }); 
         
-        
       } else {
         alert("Hubo un problema al registrar el consumo.");
       }
