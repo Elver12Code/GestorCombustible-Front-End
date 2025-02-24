@@ -241,19 +241,7 @@ function Formulario() {
           tipo: "", 
           placa: "", 
         }); 
-        /*// 🔄 Obtener stock actualizado después de registrar el consumo
-        fetch("http://localhost:3000/api/unidades")
-          .then((response) => response.json())
-          .then((data) => {
-            setUnits(data);
-            const updatedUnit = data.find((u) => u.id === selectedUnit.id);
-            setStock(updatedUnit?.stock || ""); // Actualizar stock en el frontend
-            console.log("Datos obtenidos del backend:", data); // 👀 Verifica en la consola
-
-          })
-          .catch((error) =>
-            console.error("Error al actualizar stock:", error)
-          );*/
+        
         
       } else {
         alert("Hubo un problema al registrar el consumo.");
@@ -585,5 +573,11 @@ function Formulario() {
     </div>
   );
 }
+
+
+
+
+
+
 
 export default Formulario;
