@@ -368,7 +368,7 @@ function Formulario() {
             />
             </div>
             <div>
-            <label className="text-[13px] text-slate-400">Orden Consumo</label>
+            <label className="text-[13px] text-slate-400">Clasificador </label>
             <input
               type="text"
               name="clasificador"
