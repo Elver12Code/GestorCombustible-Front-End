@@ -1,11 +1,15 @@
-// UnitSelector.jsx
 import React from "react";
 
 function UnitSelector({ units, selectedUnit, onUnitChange }) {
+  // Buscar la unidad seleccionada
+  const selectedUnitData = units.find((unit) => unit.id === selectedUnit);
+
   return (
-    <div className="flex grid-cols-2 gap-4">
+    <div className="flex flex-col gap-4">
       <div>
-        
+        <label htmlFor="unidad" className="block text-sm font-medium">
+          Seleccione la Unidad Operativa
+        </label>
         <select
           id="unidad"
           className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500"
@@ -24,6 +28,21 @@ function UnitSelector({ units, selectedUnit, onUnitChange }) {
           )}
         </select>
       </div>
+
+      {/* Mostrar información de la unidad seleccionada */}
+      {selectedUnitData && (
+        <div className="p-4 border rounded bg-gray-100 shadow-sm">
+          <p>
+            <strong>Tipo de Combustible:</strong> {selectedUnitData.fuelType}
+          </p>
+          <p>
+            <strong>Stock:</strong> {selectedUnitData.stock}
+          </p>
+          <p>
+            <strong>Stock Inicial:</strong> {selectedUnitData.stockInicial}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
